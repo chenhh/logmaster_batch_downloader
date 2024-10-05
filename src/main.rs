@@ -24,12 +24,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
 
     // step2 : frontpage -> search
+    // note: 登入後，是否可以直接指定date interval後，直接搜尋結果，
+    // 而不必先進到search.html後再搜尋?
     let response = client
         .get("http://192.168.1.100/search.html")
         .send()
         .await?;
 
-    // step3: custom date intervalss
+    // step3: custom date interval
     let mut interval_data = HashMap::new();
     // form_inline
     //  stime: s-range
@@ -37,10 +39,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // year, month, day, hour, min, sec
     // yearend, monthend, hourend, minend, hoursend, secend
 
-    // parse
+    // parse, 要注意搜尋結果會有多頁
+    // 主要分析audio channel no., channel name, start-end time interval
     let html_content = response.text().await?;
     let document = Html::parse_document(&html_content);
     println!("{html_content}");
+
+    // download
+    // http://192.168.1.100/audio_mnt/000/ch4/20240829/164503.mp3
+
+    // 指定輸出資料夾
+
 
     // let mut file = File::create("logined.html")?;
     // copy(&mut html_content, &mut file)?;

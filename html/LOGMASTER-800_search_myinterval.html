@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://192.168.1.100/search.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>LOGMASTER-800</title>
+	<link href="./LOGMASTER-800_search_myinterval_files/bootstrap.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_myinterval_files/bootstrap-switch.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_myinterval_files/bootstrap-select.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_myinterval_files/font-awesome.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_myinterval_files/checks.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_myinterval_files/bootstrap-slider.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_myinterval_files/gvl.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_myinterval_files/search.css" rel="stylesheet">
+
+	<script src="./LOGMASTER-800_search_myinterval_files/jquery-1.12.3.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/bootstrap.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/bootstrap-switch.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/bootstrap-select.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/jquery.checks.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/multi-lang.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/wavep2.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/wavep2.timeline.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/wavep.cursor.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/bootstrap-slider.min.js.下載"></script>
+	
+	
+	<script src="./LOGMASTER-800_search_myinterval_files/search.js.下載"></script>
+	<script src="./LOGMASTER-800_search_myinterval_files/helpfunc.js.下載"></script>
+
+</head>
+
+<body class="" style="">
+	<nav class="navbar navbar-default e-navbar" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="http://192.168.1.100/search.html#"><span class="lang-nav-brand">LOGMASTER-800 錄音管理系統</span></a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="http://192.168.1.100/search.html#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-th"></span> <span class="caret"></span></a>
+					<ul id="nav-func-list" class="dropdown-menu e-ddmenu">
+						
+					<li><a href="http://192.168.1.100/frontpage.html">主功能菜單</a></li><li role="separator" class="divider"></li><li><a href="http://192.168.1.100/search.html">錄音搜尋放音</a></li><li><a href="http://192.168.1.100/status.html">實時監聽告警</a></li><li><a href="http://192.168.1.100/report.html">錄音歷史統計</a></li><li><a href="http://192.168.1.100/chcfg.html">錄音參數設定</a></li><li><a href="http://192.168.1.100/devinfo.html">設備參數設定</a></li><li><a href="http://192.168.1.100/act-admin.html">帳號權限管理</a></li><li><a href="http://192.168.1.100/account.html">修改登錄密碼</a></li><li><a href="http://192.168.1.100/syscfg.html">系統升級重啓</a></li></ul>
+				</li>
+				<li><a href="http://192.168.1.100/search.html"><span class="glyphicon glyphicon-user"></span>&nbsp;<span id="login-name">admin</span></a></li>
+				<li>
+					<a href="http://192.168.1.100/logout.html">
+						<span class="glyphicon glyphicon-log-in"></span>&nbsp; 
+						<span class="lang-nav-1">登出</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="page-header e-pageheader">
+			<h3>
+				<span id="test-id" class="lang-p3-1">錄音搜尋放音</span>
+				<small>
+					<a href="http://192.168.1.100/frontpage.html">&lt;
+						<span class="lang-nav-2">回到主功能菜單</span>
+					</a>
+				</small>
+			</h3>
+		</div>
+
+		<form class="form-inline" action="http://192.168.1.100/search.html" method="post">
+			<div>
+				<div class="col-md-4" style="display:none;">
+					<label class="col-md-1 control-label" style="display:none;">
+						<span class="lang-p3-2">設備名稱</span>
+					</label>
+					<div class="col-md-2" style="display:none;">
+						<select name="server" id="server" class="form-control"><option value="0">SD-8-1</option></select>
+					</div>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="ch_username" class="e-label"><span class="lang-p3-3">軌道</span></label>
+					<select name="ch_username" id="ch_username" class="form-control e-channlelist"><option value="*">所有軌道</option><option value="21042">21042&nbsp;&nbsp;</option><option value="64345">64345&nbsp;&nbsp;</option><option value="21041">21041&nbsp;&nbsp;</option><option value="GIS">GIS&nbsp;&nbsp;</option><option value="高調">高調&nbsp;&nbsp;</option><option value="北調">北調&nbsp;&nbsp;</option><option value="北調(備)">北調(備)&nbsp;&nbsp;</option><option value="高調(備)">高調(備)&nbsp;&nbsp;</option></select>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="stime" class="e-label"><span class="lang-p3-5">時間</span></label>
+					<select name="stime" id="stime" class="form-control">
+						<option value="s-today" class="lang-p3-6">今天</option>
+						<option value="s-yesterday" class="lang-p3-100">昨天</option>
+						<option value="s-latest-3" class="lang-p3-7">最近3天</option>
+						<option value="s-latest-7" class="lang-p3-8">最近一週</option>
+						<option value="s-latest-30" class="lang-p3-9">最近一月</option>
+						<option value="s-range" class="lang-p3-10">自選時間區間...</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<button id="searchbtn" type="button" class="btn btn-primary e-btn-search pull-right">
+						<span class="lang-p3-15">確  定</span>
+					</button>
+				</div>
+			</div>
+			<div id="div-time-range" class="row e-div-time-range" style="display: block;">
+				<div class="col-md-12">
+					<div class="form-group col-md-10">
+						<label for="year" class="e-label"><span class="lang-p3-11">啟始日期 年/月/日</span></label>
+						<input name="year" type="number" class="form-control" min="2000" max="2999">
+						<input name="month" type="number" class="form-control" min="1" max="12">
+						<input name="day" type="number" class="form-control" min="1" max="31">
+					
+						<label for="hour" class="e-label-fw"><span class="lang-p3-13">時:分:秒</span></label>
+						<input name="hour" type="number" class="form-control" min="0" max="24">
+						<input name="min" type="number" class="form-control" min="0" max="59">
+						<input name="sec" type="number" class="form-control" min="0" max="59">
+					</div>
+				</div>
+				<div class="col-md-12 e-div-time-range-bw">
+					<div class="form-group col-md-10">
+						<label for="yearend" class="e-label"><span class="lang-p3-12">結束日期 年/月/日</span></label>
+						<input name="yearend" type="number" class="form-control" min="2000" max="2999">
+						<input name="monthend" type="number" class="form-control" min="1" max="12">
+						<input name="dayend" type="number" class="form-control" min="1" max="31">
+					
+						<label for="hourend" class="e-label-fw"><span class="lang-p3-14">時:分:秒</span></label>
+						<input name="hourend" type="number" class="form-control" min="0" max="24">
+						<input name="minend" type="number" class="form-control" min="0" max="59">
+						<input name="secend" type="number" class="form-control" min="0" max="59">
+					</div>
+				</div>
+			</div>
+		</form>
+		<br>
+		<div class="row">
+			<div id="filter-panel" class="form-inline div-filter" style="display: none;">
+				<div class="form-group">
+					<label class="sr-only" for="resultfilter-number">号码</label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<span class="lang-p3-17">撥出入號碼</span>
+						</div>
+						<input type="text" class="form-control" id="f-number" placeholder="" maxlength="11" size="11">
+					</div>
+				</div>
+				<div class="form-group e-div-span"></div>
+				<div class="form-group">
+					<div class="checkbox">
+						<label>
+							<input id="f-tl-check" type="checkbox">
+							<span class="lang-p3-18">錄音長度</span>
+						</label>
+					</div>
+					<select id="f-tl-select" class="form-control" disabled="">
+						<option value="1" class=""> &gt;=</option>
+						<option value="2" class=""> &lt;=</option>
+						<option value="0" class=""> =</option>
+					</select>
+					<div class="input-group">
+						<input type="number" class="form-control e-4number" id="f-tl" placeholder="15" value="15" min="1" max="1800" disabled="">
+						<div class="input-group-addon">
+							<span class="lang-p3-23">秒</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group e-div-span"></div>
+				<div class="form-group">
+					<div class="checkbox">
+						<label>
+							<input id="f-cd-check" type="checkbox">
+							<span class="lang-p3-24">撥出入方向</span>
+						</label>
+					</div>
+					<select id="f-cd-select" class="form-control" disabled="">
+						<option value="0" class="lang-p3-25">撥入</option>
+						<option value="1" class="lang-p3-26">撥出</option>
+					</select>
+				</div>
+				<div class="form-group e-div-span"></div>
+				<div class="form-group" id="div-filter-timespan" style="display: none;">
+					<div class="checkbox">
+						<label>
+							<input id="f-tspan-check" type="checkbox">
+							<span class="lang-p3-22">Ch. Idle Timeout</span>
+						</label>
+					</div>
+					<div class="input-group">
+						<input type="number" class="form-control e-5number" id="f-tspan" placeholder="300" value="300" min="10" max="99999">
+						<div class="input-group-addon">
+							<span class="lang-p3-23">秒</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group e-div-span"></div>
+				<div class="form-group pull-right">
+					<button id="f-btn-reset" type="button" class="btn">
+						<span class="lang-p3-27">重新輸入</span>
+					</button>
+					<button id="f-btn-filter" type="submit" class="btn btn-warning e-btn-filter">
+						<span class="lang-p3-28">篩選</span>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="pull-right">
+					<nav id="nav-result-nav" aria-label="Page navigation">
+						<ul class="pagination"><li id="prev-li"><a href="http://192.168.1.100/search.html#" aria-label="Previous"><span aria-hidden="true">«</span></a></li><li class="active"><a href="http://192.168.1.100/search.html#">1</a></li><li><a href="http://192.168.1.100/search.html#">2</a></li><li><a href="http://192.168.1.100/search.html#">3</a></li><li id="next-li"><a href="http://192.168.1.100/search.html#" aria-label="Next"><span aria-hidden="true">»</span></a></li></ul>
+					</nav>
+				</div>
+				<div class="pull-right div-result-order-btn-group">
+					<button id="btn-result-order" type="button" class="btn btn-primary" style="display: inline-block;"><span class="lang-p3-43">時間排序</span><span id="gi-order" class="glyphicon glyphicon-arrow-up gi-small" aria-hidden="true"></span></button>
+				</div>
+				<div id="reslut-filter-link" class="pull-right div-result-filter-text" style="display: block;">
+					<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;<span class="lang-p3-16">搜尋結果再篩選</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<table id="restable" class="table table-bordered table-hover" style="display: table;">
+					<thead class="table-result-head">
+						<tr>
+							<td>
+								<span class="lang-p3-29">序號</span>
+							</td>
+							<td>
+								<span class="lang-p3-30">軌道</span>
+							</td>
+							<td>
+								<span class="lang-p3-80">座席代碼</span>
+							</td>
+							<td>
+								<span class="lang-p3-81">電話號碼</span>
+							</td>
+							<td>
+								<span class="lang-p3-31">錄音開始時間</span>
+							</td>
+							<td>
+								<span class="lang-p3-32">錄音長度</span>
+							</td>
+							<td>
+								<span class="lang-p3-33">撥出入方向</span>
+							</td>
+							<td>
+								<span class="lang-p3-34">撥出入號碼</span>
+							</td>
+							<td>
+								<span class="lang-p3-35">放音/轉存</span>
+							</td>
+						</tr>
+					</thead>
+					<tbody class="table-result-body"><tr><td><span id="236" class="">236</span></td><td>6</td><td>北調</td><td></td><td>2024-10-05 15:57:57</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;236&#39;,&#39;2024-10-05 15:57:57&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="235" class="">235</span></td><td>6</td><td>北調</td><td></td><td>2024-10-05 14:46:16</td><td>42</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;235&#39;,&#39;2024-10-05 14:46:16&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="234" class="">234</span></td><td>5</td><td>高調</td><td></td><td>2024-10-05 11:15:59</td><td>22</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;234&#39;,&#39;2024-10-05 11:15:59&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="233" class="">233</span></td><td>6</td><td>北調</td><td></td><td>2024-10-05 09:41:44</td><td>25</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;233&#39;,&#39;2024-10-05 09:41:44&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="232" class="">232</span></td><td>6</td><td>北調</td><td></td><td>2024-10-05 08:31:24</td><td>14</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;232&#39;,&#39;2024-10-05 08:31:24&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="231" class="">231</span></td><td>6</td><td>北調</td><td></td><td>2024-10-05 08:28:24</td><td>26</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;231&#39;,&#39;2024-10-05 08:28:24&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="230" class="">230</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 22:29:33</td><td>28</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;230&#39;,&#39;2024-10-04 22:29:33&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="229" class="">229</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 20:52:59</td><td>42</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;229&#39;,&#39;2024-10-04 20:52:59&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="228" class="">228</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 18:23:59</td><td>30</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;228&#39;,&#39;2024-10-04 18:23:59&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="227" class="">227</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 17:04:32</td><td>7</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;227&#39;,&#39;2024-10-04 17:04:32&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="226" class="">226</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 16:21:59</td><td>7</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;226&#39;,&#39;2024-10-04 16:21:59&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="225" class="">225</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 16:14:20</td><td>38</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;225&#39;,&#39;2024-10-04 16:14:20&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="224" class="">224</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 16:04:35</td><td>19</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;224&#39;,&#39;2024-10-04 16:04:35&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="223" class="">223</span></td><td>5</td><td>高調</td><td></td><td>2024-10-04 13:37:36</td><td>27</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;223&#39;,&#39;2024-10-04 13:37:36&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="222" class="">222</span></td><td>2</td><td>64345</td><td></td><td>2024-10-04 13:13:44</td><td>59</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;222&#39;,&#39;2024-10-04 13:13:44&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="221" class="">221</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 02:21:44</td><td>18</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;221&#39;,&#39;2024-10-04 02:21:44&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="220" class="">220</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 01:37:30</td><td>98</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;220&#39;,&#39;2024-10-04 01:37:30&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="219" class="">219</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 01:34:53</td><td>21</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;219&#39;,&#39;2024-10-04 01:34:53&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="218" class="">218</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 01:21:05</td><td>125</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;218&#39;,&#39;2024-10-04 01:21:05&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="217" class="">217</span></td><td>5</td><td>高調</td><td></td><td>2024-10-04 01:08:53</td><td>51</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;217&#39;,&#39;2024-10-04 01:08:53&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="216" class="">216</span></td><td>5</td><td>高調</td><td></td><td>2024-10-04 01:06:20</td><td>81</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;216&#39;,&#39;2024-10-04 01:06:20&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="215" class="">215</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 01:01:35</td><td>122</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;215&#39;,&#39;2024-10-04 01:01:35&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="214" class="">214</span></td><td>6</td><td>北調</td><td></td><td>2024-10-04 00:00:54</td><td>59</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;214&#39;,&#39;2024-10-04 00:00:54&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="213" class="">213</span></td><td>6</td><td>北調</td><td></td><td>2024-10-03 23:14:03</td><td>46</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;213&#39;,&#39;2024-10-03 23:14:03&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="212" class="">212</span></td><td>5</td><td>高調</td><td></td><td>2024-10-03 23:06:29</td><td>25</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;212&#39;,&#39;2024-10-03 23:06:29&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="211" class="">211</span></td><td>6</td><td>北調</td><td></td><td>2024-10-03 15:17:15</td><td>71</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;211&#39;,&#39;2024-10-03 15:17:15&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="210" class="">210</span></td><td>5</td><td>高調</td><td></td><td>2024-10-03 14:49:08</td><td>71</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;210&#39;,&#39;2024-10-03 14:49:08&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="209" class="">209</span></td><td>5</td><td>高調</td><td></td><td>2024-10-03 14:29:50</td><td>121</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;209&#39;,&#39;2024-10-03 14:29:50&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="208" class="">208</span></td><td>5</td><td>高調</td><td></td><td>2024-10-03 14:21:17</td><td>42</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;208&#39;,&#39;2024-10-03 14:21:17&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="207" class="">207</span></td><td>5</td><td>高調</td><td></td><td>2024-10-03 14:12:38</td><td>25</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;207&#39;,&#39;2024-10-03 14:12:38&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="206" class="">206</span></td><td>5</td><td>高調</td><td></td><td>2024-10-03 14:10:06</td><td>78</td><td>撥出</td><td>D</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;206&#39;,&#39;2024-10-03 14:10:06&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="205" class="">205</span></td><td>6</td><td>北調</td><td></td><td>2024-10-03 14:04:32</td><td>15</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;205&#39;,&#39;2024-10-03 14:04:32&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="204" class="">204</span></td><td>2</td><td>64345</td><td></td><td>2024-10-03 11:19:38</td><td>91</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;204&#39;,&#39;2024-10-03 11:19:38&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="203" class="">203</span></td><td>6</td><td>北調</td><td></td><td>2024-10-03 11:18:37</td><td>55</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;203&#39;,&#39;2024-10-03 11:18:37&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="202" class="">202</span></td><td>6</td><td>北調</td><td></td><td>2024-10-01 19:53:55</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;202&#39;,&#39;2024-10-01 19:53:55&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="201" class="">201</span></td><td>5</td><td>高調</td><td></td><td>2024-10-01 12:41:28</td><td>7</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;201&#39;,&#39;2024-10-01 12:41:28&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="200" class="">200</span></td><td>5</td><td>高調</td><td></td><td>2024-10-01 12:06:16</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;200&#39;,&#39;2024-10-01 12:06:16&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="199" class="">199</span></td><td>5</td><td>高調</td><td></td><td>2024-10-01 10:31:09</td><td>7</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;199&#39;,&#39;2024-10-01 10:31:09&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="198" class="">198</span></td><td>6</td><td>北調</td><td></td><td>2024-10-01 09:12:14</td><td>21</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;198&#39;,&#39;2024-10-01 09:12:14&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="197" class="">197</span></td><td>6</td><td>北調</td><td></td><td>2024-10-01 08:41:36</td><td>48</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;197&#39;,&#39;2024-10-01 08:41:36&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="196" class="">196</span></td><td>6</td><td>北調</td><td></td><td>2024-10-01 08:17:29</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;196&#39;,&#39;2024-10-01 08:17:29&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="195" class="">195</span></td><td>6</td><td>北調</td><td></td><td>2024-10-01 08:04:22</td><td>7</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;195&#39;,&#39;2024-10-01 08:04:22&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="194" class="">194</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 23:19:05</td><td>4</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;194&#39;,&#39;2024-09-30 23:19:05&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="193" class="">193</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 22:29:13</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;193&#39;,&#39;2024-09-30 22:29:13&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="192" class="">192</span></td><td>6</td><td>北調</td><td></td><td>2024-09-30 21:26:58</td><td>18</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;192&#39;,&#39;2024-09-30 21:26:58&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="191" class="">191</span></td><td>6</td><td>北調</td><td></td><td>2024-09-30 20:00:53</td><td>66</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;191&#39;,&#39;2024-09-30 20:00:53&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="190" class="">190</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 19:18:08</td><td>159</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;190&#39;,&#39;2024-09-30 19:18:08&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="189" class="">189</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 19:17:28</td><td>17</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;189&#39;,&#39;2024-09-30 19:17:28&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="188" class="">188</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 18:07:36</td><td>77</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;188&#39;,&#39;2024-09-30 18:07:36&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="187" class="">187</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 17:18:35</td><td>79</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;187&#39;,&#39;2024-09-30 17:18:35&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="186" class="">186</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 16:27:40</td><td>44</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;186&#39;,&#39;2024-09-30 16:27:40&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="185" class="">185</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 15:55:20</td><td>13</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;185&#39;,&#39;2024-09-30 15:55:20&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="184" class="">184</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 15:48:57</td><td>10</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;184&#39;,&#39;2024-09-30 15:48:57&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="183" class="">183</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 15:23:52</td><td>65</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;183&#39;,&#39;2024-09-30 15:23:52&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="182" class="">182</span></td><td>1</td><td>21042</td><td></td><td>2024-09-30 15:15:14</td><td>10</td><td>撥入</td><td>27840</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;182&#39;,&#39;2024-09-30 15:15:14&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="181" class="">181</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 15:08:26</td><td>24</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;181&#39;,&#39;2024-09-30 15:08:26&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="180" class="">180</span></td><td>6</td><td>北調</td><td></td><td>2024-09-30 15:01:39</td><td>234</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;180&#39;,&#39;2024-09-30 15:01:39&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="179" class="">179</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 14:11:52</td><td>14</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;179&#39;,&#39;2024-09-30 14:11:52&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="178" class="">178</span></td><td>6</td><td>北調</td><td></td><td>2024-09-30 13:16:33</td><td>155</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;178&#39;,&#39;2024-09-30 13:16:33&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="177" class="">177</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 12:50:27</td><td>36</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;177&#39;,&#39;2024-09-30 12:50:27&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="176" class="">176</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 09:58:30</td><td>14</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;176&#39;,&#39;2024-09-30 09:58:30&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="175" class="">175</span></td><td>6</td><td>北調</td><td></td><td>2024-09-30 09:40:18</td><td>47</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;175&#39;,&#39;2024-09-30 09:40:18&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="174" class="">174</span></td><td>6</td><td>北調</td><td></td><td>2024-09-30 08:59:51</td><td>126</td><td>撥出</td><td>1</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;174&#39;,&#39;2024-09-30 08:59:51&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="173" class="">173</span></td><td>5</td><td>高調</td><td></td><td>2024-09-30 08:47:10</td><td>35</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;173&#39;,&#39;2024-09-30 08:47:10&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="172" class="">172</span></td><td>6</td><td>北調</td><td></td><td>2024-09-30 08:05:43</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;172&#39;,&#39;2024-09-30 08:05:43&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="171" class="">171</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 22:12:10</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;171&#39;,&#39;2024-09-29 22:12:10&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="170" class="">170</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 16:53:11</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;170&#39;,&#39;2024-09-29 16:53:11&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="169" class="">169</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 16:47:56</td><td>77</td><td>撥出</td><td>2</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;169&#39;,&#39;2024-09-29 16:47:56&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="168" class="">168</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 16:43:35</td><td>80</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;168&#39;,&#39;2024-09-29 16:43:35&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="167" class="">167</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 15:51:54</td><td>77</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;167&#39;,&#39;2024-09-29 15:51:54&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="166" class="">166</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 15:36:40</td><td>59</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;166&#39;,&#39;2024-09-29 15:36:40&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="165" class="">165</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 13:59:06</td><td>19</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;165&#39;,&#39;2024-09-29 13:59:06&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="164" class="">164</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 13:56:53</td><td>49</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;164&#39;,&#39;2024-09-29 13:56:53&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="163" class="">163</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 11:33:32</td><td>54</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;163&#39;,&#39;2024-09-29 11:33:32&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="162" class="">162</span></td><td>4</td><td>GIS</td><td></td><td>2024-09-29 11:27:22</td><td>24</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;162&#39;,&#39;2024-09-29 11:27:22&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="161" class="">161</span></td><td>4</td><td>GIS</td><td></td><td>2024-09-29 11:23:50</td><td>41</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;161&#39;,&#39;2024-09-29 11:23:50&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="160" class="">160</span></td><td>4</td><td>GIS</td><td></td><td>2024-09-29 11:16:21</td><td>40</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;160&#39;,&#39;2024-09-29 11:16:21&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="159" class="">159</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 11:14:15</td><td>37</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;159&#39;,&#39;2024-09-29 11:14:15&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="158" class="">158</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 11:13:27</td><td>28</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;158&#39;,&#39;2024-09-29 11:13:27&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="157" class="">157</span></td><td>4</td><td>GIS</td><td></td><td>2024-09-29 11:07:39</td><td>73</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;157&#39;,&#39;2024-09-29 11:07:39&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="156" class="">156</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 07:21:37</td><td>74</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;156&#39;,&#39;2024-09-29 07:21:37&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="155" class="">155</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 06:56:51</td><td>29</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;155&#39;,&#39;2024-09-29 06:56:51&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="154" class="">154</span></td><td>5</td><td>高調</td><td></td><td>2024-09-29 06:55:50</td><td>13</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;154&#39;,&#39;2024-09-29 06:55:50&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="153" class="">153</span></td><td>6</td><td>北調</td><td></td><td>2024-09-29 00:05:33</td><td>5</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;153&#39;,&#39;2024-09-29 00:05:33&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="152" class="">152</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 23:17:54</td><td>117</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;152&#39;,&#39;2024-09-28 23:17:54&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="151" class="">151</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 17:50:09</td><td>9</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;151&#39;,&#39;2024-09-28 17:50:09&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="150" class="">150</span></td><td>6</td><td>北調</td><td></td><td>2024-09-28 16:13:05</td><td>29</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;150&#39;,&#39;2024-09-28 16:13:05&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="149" class="">149</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 15:20:01</td><td>6</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;149&#39;,&#39;2024-09-28 15:20:01&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="148" class="">148</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 15:11:48</td><td>81</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;148&#39;,&#39;2024-09-28 15:11:48&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="147" class="">147</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 12:18:18</td><td>48</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;147&#39;,&#39;2024-09-28 12:18:18&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="146" class="">146</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 12:02:34</td><td>42</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;146&#39;,&#39;2024-09-28 12:02:34&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="145" class="">145</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 11:01:39</td><td>13</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;145&#39;,&#39;2024-09-28 11:01:39&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="144" class="">144</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 09:49:28</td><td>17</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;144&#39;,&#39;2024-09-28 09:49:28&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="143" class="">143</span></td><td>5</td><td>高調</td><td></td><td>2024-09-28 06:47:35</td><td>18</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;143&#39;,&#39;2024-09-28 06:47:35&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="142" class="">142</span></td><td>5</td><td>高調</td><td></td><td>2024-09-27 15:19:53</td><td>5</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;142&#39;,&#39;2024-09-27 15:19:53&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="141" class="">141</span></td><td>5</td><td>高調</td><td></td><td>2024-09-27 15:13:35</td><td>17</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;141&#39;,&#39;2024-09-27 15:13:35&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="140" class="">140</span></td><td>5</td><td>高調</td><td></td><td>2024-09-27 13:53:27</td><td>10</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;140&#39;,&#39;2024-09-27 13:53:27&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="139" class="">139</span></td><td>5</td><td>高調</td><td></td><td>2024-09-27 12:50:32</td><td>9</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;139&#39;,&#39;2024-09-27 12:50:32&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="138" class="">138</span></td><td>5</td><td>高調</td><td></td><td>2024-09-27 09:30:24</td><td>8</td><td>撥入</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;138&#39;,&#39;2024-09-27 09:30:24&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr><tr><td><span id="137" class="">137</span></td><td>4</td><td>GIS</td><td></td><td>2024-09-27 09:10:14</td><td>25</td><td>撥出</td><td>&nbsp;</td><td class="e-td-play" onclick="download(&#39;0&#39;,&#39;137&#39;,&#39;2024-09-27 09:10:14&#39;)"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></td></tr></tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="dlModal" tabindex="-1" role="dialog" aria-labelledby="dlModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<span class="lang-p3-37">錄音播放</span>
+					</h4>
+				</div>
+				<div class="modal-body" id="fileloader">
+					<iframe src="./LOGMASTER-800_search_myinterval_files/saved_resource.html" style="display: none;"></iframe>
+					<p></p>
+					<h4 id="nowplayinfo" class="PlayInfo">
+						<span class="lang-p3-39">目前放音:</span>
+						<span class="lang-p3-29">序號</span>
+						<span id="play-id"></span>
+						<span class="lang-p3-31">錄音開始時間</span>
+						<span id="play-stime"></span>
+						<span id="share-btn" class="glyphicon glyphicon-share e-share-btn e-share-btn-color"></span>
+					</h4>
+					<div id="waveform" class="wf"><wave style="display: block; position: relative; user-select: none; height: 64px; width: 100%; overflow: auto hidden;"><wave style="position: absolute; z-index: 3; left: 0px; top: 0px; bottom: 0px; overflow: hidden; width: 0px; display: none; box-sizing: border-box; border-right: 1px solid rgb(51, 51, 51); pointer-events: none;"><canvas style="position: absolute; left: 0px; top: 0px; bottom: 0px; height: 100%;"></canvas></wave><canvas style="position: absolute; z-index: 2; left: 0px; top: 0px; bottom: 0px; height: 100%; pointer-events: none;"></canvas></wave></div>
+					<div id="waveform-timeline" class="wftl"></div>
+					<br>
+					<div class="row">
+						<div class="col-sm-4 col-xs-4">
+							<button type="button" class="btn btn-primary" id="playbtn" onclick="clickPlayBtn()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>/<span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-primary" id="playprev" onclick="clickPlayPrevBtn()"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-primary" id="playnext" onclick="clickPlayNextBtn()"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>
+							<div class="slider slider-horizontal" id="volSlider"><div class="slider-track"><div class="slider-track-low" style="left: 0px; width: 0%;"></div><div class="slider-selection" style="left: 0%; width: 100%;"></div><div class="slider-track-high" style="right: 0px; width: 0%;"></div></div><div class="tooltip tooltip-main top hide" role="presentation" style="left: 100%;"><div class="tooltip-arrow"></div><div class="tooltip-inner">1</div></div><div class="tooltip tooltip-min top hide" role="presentation"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div><div class="tooltip tooltip-max top hide" role="presentation"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div><div class="slider-handle min-slider-handle round" role="slider" aria-valuemin="0" aria-valuemax="1" aria-valuenow="1" tabindex="0" style="left: 100%;"></div><div class="slider-handle max-slider-handle round hide" role="slider" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" tabindex="0" style="left: 0%;"></div></div><input id="volume" data-slider-id="volSlider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="1" data-value="1" value="1" style="display: none;">
+						</div>
+						<div class="col-sm-1 col-xs-1">
+							<div class="btn-group bootstrap-select show-tick fit-width"><button type="button" class="btn dropdown-toggle btn-warning" data-toggle="dropdown" role="button" data-id="playRate" title="1.0x"><span class="filter-option pull-left">1.0x</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><ul class="dropdown-menu inner" role="listbox" aria-expanded="false"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true"><span class="text">1.0x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li class="divider" data-original-index="1"></li><li data-original-index="2"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">0.7x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li class="divider" data-original-index="3"></li><li data-original-index="4"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">1.5x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="5"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">2.0x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div><select id="playRate" class="selectpicker show-tick" data-style="btn-warning" data-width="fit" tabindex="-98">
+								<option value="1.0" data-subtext="">1.0x</option>
+								<option data-divider="true"></option>
+								<option value="0.7" data-subtext="">0.7x</option>
+								<option data-divider="true"></option>
+								<option value="1.5" data-subtext="">1.5x</option>
+								<option value="2.0" data-subtext="">2.0x</option>
+							</select></div>
+						</div>
+						<div class="col-sm-1 col-xs-1">
+							<button type="button" class="btn btn-success" id="dlbtn" onclick="dlFile()">
+								<span class="lang-p3-38">轉存</span>
+							</button>
+						</div>
+						<div class="col-sm-6 col-xs-6 vcenter text-right">
+							<!-- col-md-offset-2 -->
+							<label class="radio-inline">
+								<input type="radio" name="EndOperation" id="playEndOptions1" value="stop" checked=""> <span class="lang-p3-42">單次播放</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="EndOperation" id="playEndOptions2" value="repeat"> <span class="lang-p3-41">單條循環</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="EndOperation" id="playEndOptions3" value="playnext"> <span class="lang-p3-40">連續放音</span> [<span id="span-play-order" class=""></span>]
+							</label>
+						</div>
+					</div>
+					<br>
+					<div id="asrdiv" class="row" style="display: none;">
+						<div id="asrbtndiv" class="col-sm-4 col-xs-4" style="display: none;">
+							<button type="button" class="btn btn-default" id="asrbtn">语音转写</button>
+							<i id="asrspinner" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;vertical-align:middle;display: none;"></i>
+						</div>
+						<div id="asrlistdiv" class="col-sm-12 col-xs-12" style="display: none;">
+							<textarea id="asrresult" class="form-control" rows="10"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<iframe id="dl_iframe" style="display:none;" src="./LOGMASTER-800_search_myinterval_files/saved_resource(1).html"></iframe>
+
+
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="dismissBtn">
+						<span class="lang-p3-36">關閉</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="shModal" tabindex="-1" role="dialog" aria-labelledby="shModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<span class="lang-p3-51">搜尋錄音</span>
+					</h4>
+				</div>
+				<div class="modal-body" id="fileloader">
+					<iframe src="./LOGMASTER-800_search_myinterval_files/saved_resource(2).html" style="display: none;"></iframe>
+					<p></p>
+					<p>
+						<strong>
+							<span class="lang-p3-52">電腦正在連接遠端錄音設備......</span>
+						</strong>
+					</p>
+					<em>
+						<span class="lang-p3-53">在連接過程中請勿關閉本視窗</span>
+					</em>
+				</div>
+				<div class="modal-footer">
+					<p></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<p class="footer-1"><span class="lang-ft-1">技術支持: 技電股份有限公司 Eletech Enterprise Co., Ltd</span></p>
+			<p class="footer-2"><span class="lang-ft-2">www.eletech.com.tw Email:sales@eletech.com.tw Tel:(0)2-2910-6969</span></p>
+		</div>
+	</div>
+
+
+</body></html>

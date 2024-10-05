@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://192.168.1.100/frontpage.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LOGMASTER-800</title>
+    <link href="./LOGMASTER-800_front_files/bootstrap.min.css" rel="stylesheet">
+    <link href="./LOGMASTER-800_front_files/font-awesome.css" rel="stylesheet">
+    <link href="./LOGMASTER-800_front_files/normalize.css" rel="stylesheet">
+    <link href="./LOGMASTER-800_front_files/gvl.css" rel="stylesheet">
+    <link href="./LOGMASTER-800_front_files/frontpage.css" rel="stylesheet">
+
+    <script src="./LOGMASTER-800_front_files/jquery-1.12.3.min.js.下載"></script>
+    <script src="./LOGMASTER-800_front_files/bootstrap.min.js.下載"></script>
+    <script src="./LOGMASTER-800_front_files/multi-lang.js.下載"></script>
+    <script src="./LOGMASTER-800_front_files/helpfunc.js.下載"></script>
+    <script src="./LOGMASTER-800_front_files/frontpage.js.下載"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default e-navbar" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://192.168.1.100/frontpage.html#"><span class="lang-nav-brand">LOGMASTER-800 錄音管理系統</span></a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <!--
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-th"></span> <span class="caret"></span></a>
+                    <ul id="nav-func-list" class="dropdown-menu e-ddmenu">
+                        
+                    </ul>
+                </li>
+                -->
+                <li><a href="http://192.168.1.100/frontpage.html"><span class="glyphicon glyphicon-user"></span>&nbsp;<span id="login-name">admin</span></a></li>
+                <li>
+                    <a href="http://192.168.1.100/logout.html">
+                        <span class="glyphicon glyphicon-log-in"></span>&nbsp; 
+                        <span class="lang-nav-1">登出</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div id="div-search" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-primary">
+                        <h3 class="panel-title"><span class="lang-p2-1">錄音搜尋放音</span></h3>
+                    </div>
+                    <div class="panel-body gvl-panel-body-lightgray" id="search_div">
+                       <div class="col-md-2">
+                           <span><i class="fa fa-search fa-4x" aria-hidden="true"></i></span>
+                       </div>
+                       <div class="col-md-10">
+                           <p><span class="lang-p2-2">設定搜尋條件，對設備內錄音資料執行查詢、放音與轉存。</span></p>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-status" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-primary">
+                        <h3 class="panel-title"><span class="lang-p2-3">實時監聽告警</span></h3>
+                    </div>
+                    <div class="panel-body" id="status_div">
+                        <div class="col-md-2">
+                            <span><i class="fa fa-tasks fa-4x" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="col-md-10">
+                            <p><span class="lang-p2-4">各軌道實時監聽及狀態變化顯示, 設備告警狀態變化及歷史異常信息記錄。</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-report" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-info">
+                        <h3 class="panel-title"><span class="lang-p2-15">錄音歷史統計</span></h3>
+                    </div>
+                    <div class="panel-body" id="report_div">
+                        <div class="col-md-2">
+                            <span><i class="fa fa-bar-chart fa-4x" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="col-md-10">
+                            <p><span class="lang-p2-16">歷史錄音筆數及時長統計</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-chcfg" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-info">
+                        <h3 class="panel-title"><span class="lang-p2-5">錄音參數設定</span></h3>
+                    </div>
+                    <div class="panel-body" id="chcfg_div">
+                       <div class="col-md-2">
+                           <span><i class="fa fa-sliders fa-4x" aria-hidden="true"></i></span>
+                       </div>
+                       <div class="col-md-10">
+                           <p><span class="lang-p2-6">各軌道之名稱、電話號碼、錄音格式等參數設定。</span></p>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-devinfo" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-info">
+                        <h3 class="panel-title"><span class="lang-p2-7">設備參數設定</span></h3>
+                    </div>
+                    <div class="panel-body" id="devinfo_div">
+                       <div class="col-md-2">
+                           <span><i class="fa fa-cogs fa-4x" aria-hidden="true"></i></span>
+                       </div>
+                       <div class="col-md-10">
+                           <p><span class="lang-p2-8">設備軟件版本、儲存狀態顯示、NTP時間對時、自動回刪等參數設定。</span></p>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-account-admin" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-info">
+                        <h3 class="panel-title"><span class="lang-p2-13">帳號權限管理</span></h3>
+                    </div>
+                    <div class="panel-body" id="account-admin_div">
+                       <div class="col-md-2">
+                           <span><i class="fa fa-users fa-4x" aria-hidden="true"></i></span>
+                       </div>
+                       <div class="col-md-10">
+                           <p><span class="lang-p2-14">創建、維護或刪除用戶帳號. 可給帳號分配不同的通道權限, 也可暫停或啓用帳號登錄功能.</span></p>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-account" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-info">
+                        <h3 class="panel-title"><span class="lang-p2-9">修改登錄密碼</span></h3>
+                    </div>
+                    <div class="panel-body" id="account_div">
+                       <div class="col-md-2">
+                           <span><i class="fa fa-key fa-4x" aria-hidden="true"></i></span>
+                       </div>
+                       <div class="col-md-10">
+                           <p><span class="lang-p2-10">修改當前登入帳號的密碼。</span></p>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div-syscfg" class="row" style="">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading e-bg-danger">
+                        <h3 class="panel-title"><span class="lang-p2-11">系統升級重啓</span></h3>
+                    </div>
+                    <div class="panel-body" id="syscfg_div">
+                       <div class="col-md-2">
+                           <span><i class="fa fa-file-archive-o fa-4x" aria-hidden="true"></i></span>
+                       </div>
+                       <div class="col-md-10">
+                           <p><span class="lang-p2-12">更新系統語言, 重啓錄音儀, 錄音設備韌體更新升級，格式化存儲介質，恢復出廠默認錄音參數，此功能必須由授權的系統管理員執行。</span></p>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="footer">
+        <div class="container">
+            <p class="footer-1"><span class="lang-ft-1">技術支持: 技電股份有限公司 Eletech Enterprise Co., Ltd</span></p>
+            <p class="footer-2"><span class="lang-ft-2">www.eletech.com.tw Email:sales@eletech.com.tw Tel:(0)2-2910-6969</span></p>
+        </div>
+    </div>
+
+
+
+</body></html>

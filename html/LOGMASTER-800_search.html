@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://192.168.1.100/search.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>LOGMASTER-800</title>
+	<link href="./LOGMASTER-800_search_files/bootstrap.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_files/bootstrap-switch.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_files/bootstrap-select.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_files/font-awesome.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_files/checks.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_files/bootstrap-slider.min.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_files/gvl.css" rel="stylesheet">
+	<link href="./LOGMASTER-800_search_files/search.css" rel="stylesheet">
+
+	<script src="./LOGMASTER-800_search_files/jquery-1.12.3.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/bootstrap.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/bootstrap-switch.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/bootstrap-select.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/jquery.checks.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/multi-lang.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/wavep2.min.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/wavep2.timeline.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/wavep.cursor.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/bootstrap-slider.min.js.下載"></script>
+	
+	
+	<script src="./LOGMASTER-800_search_files/search.js.下載"></script>
+	<script src="./LOGMASTER-800_search_files/helpfunc.js.下載"></script>
+
+</head>
+
+<body>
+	<nav class="navbar navbar-default e-navbar" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="http://192.168.1.100/search.html#"><span class="lang-nav-brand">LOGMASTER-800 錄音管理系統</span></a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="http://192.168.1.100/search.html#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-th"></span> <span class="caret"></span></a>
+					<ul id="nav-func-list" class="dropdown-menu e-ddmenu">
+						
+					<li><a href="http://192.168.1.100/frontpage.html">主功能菜單</a></li><li role="separator" class="divider"></li><li><a href="http://192.168.1.100/search.html">錄音搜尋放音</a></li><li><a href="http://192.168.1.100/status.html">實時監聽告警</a></li><li><a href="http://192.168.1.100/report.html">錄音歷史統計</a></li><li><a href="http://192.168.1.100/chcfg.html">錄音參數設定</a></li><li><a href="http://192.168.1.100/devinfo.html">設備參數設定</a></li><li><a href="http://192.168.1.100/act-admin.html">帳號權限管理</a></li><li><a href="http://192.168.1.100/account.html">修改登錄密碼</a></li><li><a href="http://192.168.1.100/syscfg.html">系統升級重啓</a></li></ul>
+				</li>
+				<li><a href="http://192.168.1.100/search.html"><span class="glyphicon glyphicon-user"></span>&nbsp;<span id="login-name">admin</span></a></li>
+				<li>
+					<a href="http://192.168.1.100/logout.html">
+						<span class="glyphicon glyphicon-log-in"></span>&nbsp; 
+						<span class="lang-nav-1">登出</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="page-header e-pageheader">
+			<h3>
+				<span id="test-id" class="lang-p3-1">錄音搜尋放音</span>
+				<small>
+					<a href="http://192.168.1.100/frontpage.html">&lt;
+						<span class="lang-nav-2">回到主功能菜單</span>
+					</a>
+				</small>
+			</h3>
+		</div>
+
+		<form class="form-inline" action="http://192.168.1.100/search.html" method="post">
+			<div>
+				<div class="col-md-4" style="display:none;">
+					<label class="col-md-1 control-label" style="display:none;">
+						<span class="lang-p3-2">設備名稱</span>
+					</label>
+					<div class="col-md-2" style="display:none;">
+						<select name="server" id="server" class="form-control"><option value="0">SD-8-1</option></select>
+					</div>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="ch_username" class="e-label"><span class="lang-p3-3">軌道</span></label>
+					<select name="ch_username" id="ch_username" class="form-control e-channlelist"><option value="*">所有軌道</option><option value="21042">21042&nbsp;&nbsp;</option><option value="64345">64345&nbsp;&nbsp;</option><option value="21041">21041&nbsp;&nbsp;</option><option value="GIS">GIS&nbsp;&nbsp;</option><option value="高調">高調&nbsp;&nbsp;</option><option value="北調">北調&nbsp;&nbsp;</option><option value="北調(備)">北調(備)&nbsp;&nbsp;</option><option value="高調(備)">高調(備)&nbsp;&nbsp;</option></select>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="stime" class="e-label"><span class="lang-p3-5">時間</span></label>
+					<select name="stime" id="stime" class="form-control">
+						<option value="s-today" class="lang-p3-6">今天</option>
+						<option value="s-yesterday" class="lang-p3-100">昨天</option>
+						<option value="s-latest-3" class="lang-p3-7">最近3天</option>
+						<option value="s-latest-7" class="lang-p3-8">最近一週</option>
+						<option value="s-latest-30" class="lang-p3-9">最近一月</option>
+						<option value="s-range" class="lang-p3-10">自選時間區間...</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<button id="searchbtn" type="button" class="btn btn-primary e-btn-search pull-right">
+						<span class="lang-p3-15">確  定</span>
+					</button>
+				</div>
+			</div>
+			<div id="div-time-range" class="row e-div-time-range" style="display: none;">
+				<div class="col-md-12">
+					<div class="form-group col-md-10">
+						<label for="year" class="e-label"><span class="lang-p3-11">啟始日期 年/月/日</span></label>
+						<input name="year" type="number" class="form-control" min="2000" max="2999">
+						<input name="month" type="number" class="form-control" min="1" max="12">
+						<input name="day" type="number" class="form-control" min="1" max="31">
+					
+						<label for="hour" class="e-label-fw"><span class="lang-p3-13">時:分:秒</span></label>
+						<input name="hour" type="number" class="form-control" min="0" max="24">
+						<input name="min" type="number" class="form-control" min="0" max="59">
+						<input name="sec" type="number" class="form-control" min="0" max="59">
+					</div>
+				</div>
+				<div class="col-md-12 e-div-time-range-bw">
+					<div class="form-group col-md-10">
+						<label for="yearend" class="e-label"><span class="lang-p3-12">結束日期 年/月/日</span></label>
+						<input name="yearend" type="number" class="form-control" min="2000" max="2999">
+						<input name="monthend" type="number" class="form-control" min="1" max="12">
+						<input name="dayend" type="number" class="form-control" min="1" max="31">
+					
+						<label for="hourend" class="e-label-fw"><span class="lang-p3-14">時:分:秒</span></label>
+						<input name="hourend" type="number" class="form-control" min="0" max="24">
+						<input name="minend" type="number" class="form-control" min="0" max="59">
+						<input name="secend" type="number" class="form-control" min="0" max="59">
+					</div>
+				</div>
+			</div>
+		</form>
+		<br>
+		<div class="row">
+			<div id="filter-panel" class="form-inline div-filter" style="display: none;">
+				<div class="form-group">
+					<label class="sr-only" for="resultfilter-number">号码</label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<span class="lang-p3-17">撥出入號碼</span>
+						</div>
+						<input type="text" class="form-control" id="f-number" placeholder="" maxlength="11" size="11">
+					</div>
+				</div>
+				<div class="form-group e-div-span"></div>
+				<div class="form-group">
+					<div class="checkbox">
+						<label>
+							<input id="f-tl-check" type="checkbox">
+							<span class="lang-p3-18">錄音長度</span>
+						</label>
+					</div>
+					<select id="f-tl-select" class="form-control">
+						<option value="1" class=""> &gt;=</option>
+						<option value="2" class=""> &lt;=</option>
+						<option value="0" class=""> =</option>
+					</select>
+					<div class="input-group">
+						<input type="number" class="form-control e-4number" id="f-tl" placeholder="15" value="15" min="1" max="1800">
+						<div class="input-group-addon">
+							<span class="lang-p3-23">秒</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group e-div-span"></div>
+				<div class="form-group">
+					<div class="checkbox">
+						<label>
+							<input id="f-cd-check" type="checkbox">
+							<span class="lang-p3-24">撥出入方向</span>
+						</label>
+					</div>
+					<select id="f-cd-select" class="form-control">
+						<option value="0" class="lang-p3-25">撥入</option>
+						<option value="1" class="lang-p3-26">撥出</option>
+					</select>
+				</div>
+				<div class="form-group e-div-span"></div>
+				<div class="form-group" id="div-filter-timespan">
+					<div class="checkbox">
+						<label>
+							<input id="f-tspan-check" type="checkbox">
+							<span class="lang-p3-22">Ch. Idle Timeout</span>
+						</label>
+					</div>
+					<div class="input-group">
+						<input type="number" class="form-control e-5number" id="f-tspan" placeholder="300" value="300" min="10" max="99999">
+						<div class="input-group-addon">
+							<span class="lang-p3-23">秒</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group e-div-span"></div>
+				<div class="form-group pull-right">
+					<button id="f-btn-reset" type="button" class="btn">
+						<span class="lang-p3-27">重新輸入</span>
+					</button>
+					<button id="f-btn-filter" type="submit" class="btn btn-warning e-btn-filter">
+						<span class="lang-p3-28">篩選</span>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="pull-right">
+					<nav id="nav-result-nav" aria-label="Page navigation">
+						<ul class="pagination">
+						</ul>
+					</nav>
+				</div>
+				<div class="pull-right div-result-order-btn-group">
+					<button id="btn-result-order" type="button" class="btn btn-primary" style="display: none;"><span class="lang-p3-43">時間排序</span><span id="gi-order" class="glyphicon glyphicon-arrow-up gi-small" aria-hidden="true"></span></button>
+				</div>
+				<div id="reslut-filter-link" class="pull-right div-result-filter-text" style="display: none;">
+					<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;<span class="lang-p3-16">搜尋結果再篩選</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<table id="restable" class="table table-bordered table-hover" style="display: none;">
+					<thead class="table-result-head">
+						<tr>
+							<td>
+								<span class="lang-p3-29">序號</span>
+							</td>
+							<td>
+								<span class="lang-p3-30">軌道</span>
+							</td>
+							<td>
+								<span class="lang-p3-80">座席代碼</span>
+							</td>
+							<td>
+								<span class="lang-p3-81">電話號碼</span>
+							</td>
+							<td>
+								<span class="lang-p3-31">錄音開始時間</span>
+							</td>
+							<td>
+								<span class="lang-p3-32">錄音長度</span>
+							</td>
+							<td>
+								<span class="lang-p3-33">撥出入方向</span>
+							</td>
+							<td>
+								<span class="lang-p3-34">撥出入號碼</span>
+							</td>
+							<td>
+								<span class="lang-p3-35">放音/轉存</span>
+							</td>
+						</tr>
+					</thead>
+					<tbody class="table-result-body">
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="dlModal" tabindex="-1" role="dialog" aria-labelledby="dlModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<span class="lang-p3-37">錄音播放</span>
+					</h4>
+				</div>
+				<div class="modal-body" id="fileloader">
+					<iframe src="./LOGMASTER-800_search_files/saved_resource.html" style="display: none;"></iframe>
+					<p></p>
+					<h4 id="nowplayinfo" class="PlayInfo">
+						<span class="lang-p3-39">目前放音:</span>
+						<span class="lang-p3-29">序號</span>
+						<span id="play-id"></span>
+						<span class="lang-p3-31">錄音開始時間</span>
+						<span id="play-stime"></span>
+						<span id="share-btn" class="glyphicon glyphicon-share e-share-btn e-share-btn-color"></span>
+					</h4>
+					<div id="waveform" class="wf"><wave style="display: block; position: relative; user-select: none; height: 64px; width: 100%; overflow: auto hidden;"><wave style="position: absolute; z-index: 3; left: 0px; top: 0px; bottom: 0px; overflow: hidden; width: 0px; display: none; box-sizing: border-box; border-right: 1px solid rgb(51, 51, 51); pointer-events: none;"><canvas style="position: absolute; left: 0px; top: 0px; bottom: 0px; height: 100%;"></canvas></wave><canvas style="position: absolute; z-index: 2; left: 0px; top: 0px; bottom: 0px; height: 100%; pointer-events: none;"></canvas></wave></div>
+					<div id="waveform-timeline" class="wftl"></div>
+					<br>
+					<div class="row">
+						<div class="col-sm-4 col-xs-4">
+							<button type="button" class="btn btn-primary" id="playbtn" onclick="clickPlayBtn()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>/<span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-primary" id="playprev" onclick="clickPlayPrevBtn()"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-primary" id="playnext" onclick="clickPlayNextBtn()"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>
+							<div class="slider slider-horizontal" id="volSlider"><div class="slider-track"><div class="slider-track-low" style="left: 0px; width: 0%;"></div><div class="slider-selection" style="left: 0%; width: 100%;"></div><div class="slider-track-high" style="right: 0px; width: 0%;"></div></div><div class="tooltip tooltip-main top hide" role="presentation" style="left: 100%;"><div class="tooltip-arrow"></div><div class="tooltip-inner">1</div></div><div class="tooltip tooltip-min top hide" role="presentation"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div><div class="tooltip tooltip-max top hide" role="presentation"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div><div class="slider-handle min-slider-handle round" role="slider" aria-valuemin="0" aria-valuemax="1" aria-valuenow="1" tabindex="0" style="left: 100%;"></div><div class="slider-handle max-slider-handle round hide" role="slider" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" tabindex="0" style="left: 0%;"></div></div><input id="volume" data-slider-id="volSlider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="1" data-value="1" value="1" style="display: none;">
+						</div>
+						<div class="col-sm-1 col-xs-1">
+							<div class="btn-group bootstrap-select show-tick fit-width"><button type="button" class="btn dropdown-toggle btn-warning" data-toggle="dropdown" role="button" data-id="playRate" title="1.0x"><span class="filter-option pull-left">1.0x</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><ul class="dropdown-menu inner" role="listbox" aria-expanded="false"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true"><span class="text">1.0x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li class="divider" data-original-index="1"></li><li data-original-index="2"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">0.7x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li class="divider" data-original-index="3"></li><li data-original-index="4"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">1.5x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="5"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">2.0x<small class="text-muted"></small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div><select id="playRate" class="selectpicker show-tick" data-style="btn-warning" data-width="fit" tabindex="-98">
+								<option value="1.0" data-subtext="">1.0x</option>
+								<option data-divider="true"></option>
+								<option value="0.7" data-subtext="">0.7x</option>
+								<option data-divider="true"></option>
+								<option value="1.5" data-subtext="">1.5x</option>
+								<option value="2.0" data-subtext="">2.0x</option>
+							</select></div>
+						</div>
+						<div class="col-sm-1 col-xs-1">
+							<button type="button" class="btn btn-success" id="dlbtn" onclick="dlFile()">
+								<span class="lang-p3-38">轉存</span>
+							</button>
+						</div>
+						<div class="col-sm-6 col-xs-6 vcenter text-right">
+							<!-- col-md-offset-2 -->
+							<label class="radio-inline">
+								<input type="radio" name="EndOperation" id="playEndOptions1" value="stop" checked=""> <span class="lang-p3-42">單次播放</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="EndOperation" id="playEndOptions2" value="repeat"> <span class="lang-p3-41">單條循環</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="EndOperation" id="playEndOptions3" value="playnext"> <span class="lang-p3-40">連續放音</span> [<span id="span-play-order" class=""></span>]
+							</label>
+						</div>
+					</div>
+					<br>
+					<div id="asrdiv" class="row" style="display: none;">
+						<div id="asrbtndiv" class="col-sm-4 col-xs-4" style="display: none;">
+							<button type="button" class="btn btn-default" id="asrbtn">语音转写</button>
+							<i id="asrspinner" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;vertical-align:middle;display: none;"></i>
+						</div>
+						<div id="asrlistdiv" class="col-sm-12 col-xs-12" style="display: none;">
+							<textarea id="asrresult" class="form-control" rows="10"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<iframe id="dl_iframe" style="display:none;" src="./LOGMASTER-800_search_files/saved_resource(1).html"></iframe>
+
+
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="dismissBtn">
+						<span class="lang-p3-36">關閉</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="shModal" tabindex="-1" role="dialog" aria-labelledby="shModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<span class="lang-p3-51">搜尋錄音</span>
+					</h4>
+				</div>
+				<div class="modal-body" id="fileloader">
+					<iframe src="./LOGMASTER-800_search_files/saved_resource(2).html" style="display: none;"></iframe>
+					<p></p>
+					<p>
+						<strong>
+							<span class="lang-p3-52">電腦正在連接遠端錄音設備......</span>
+						</strong>
+					</p>
+					<em>
+						<span class="lang-p3-53">在連接過程中請勿關閉本視窗</span>
+					</em>
+				</div>
+				<div class="modal-footer">
+					<p></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<p class="footer-1"><span class="lang-ft-1">技術支持: 技電股份有限公司 Eletech Enterprise Co., Ltd</span></p>
+			<p class="footer-2"><span class="lang-ft-2">www.eletech.com.tw Email:sales@eletech.com.tw Tel:(0)2-2910-6969</span></p>
+		</div>
+	</div>
+
+
+</body></html>

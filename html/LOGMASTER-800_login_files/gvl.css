@@ -1,0 +1,100 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    background-color: #F2F7FB;
+    /* Margin bottom by footer height */
+    margin-bottom: 45px;
+}
+
+.e-navbar {
+    background-color: #004466 !important;
+}
+
+.e-navbar .navbar-brand {
+    color: white !important;
+}
+
+.e-navbar .navbar-nav>.open>a, .e-navbar .navbar-nav>.open>a:focus, .e-navbar .navbar-nav>.open>a:hover {
+    color: white;
+    background-color: #004466;
+}
+
+.e-navbar .dropdown > a {
+    color: white !important;
+}
+
+
+.e-navbar .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-image:none !important;
+    background-color: #004466 !important;
+    color: white;
+}
+
+
+nav > div > ul > li > a > span {
+    color: white;
+}
+
+
+/*
+@media (min-width: 979px) {
+    ul.nav li.dropdown:hover > ul.dropdown-menu {
+      display: block;
+    }
+}
+*/
+.e-ddmenu {
+    background-color: #ebf0f4;
+}
+.e-pageheader{
+    margin-top: 0rem !important;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 45px;
+    background-color: #004466;
+    border-radius: 4px;
+    border-color: #e7e7e7;
+    border: 1px solid transparent;
+}
+
+.footer-1{
+    color:  white;
+    text-align: center;
+    padding-top: 5px;
+    margin-bottom: 0px;
+}
+
+.footer-2{
+    color:  white;
+    text-align: center;
+    font-size: smaller;
+    margin-bottom: 0px;
+}
+
+.e-table-head {
+    background-color: #f0ad4e;
+}
+
+.e-table-body {
+    background-color: white;
+}
+
+.e-table-body-even {
+    background-color: #fcf8e3;
+}
+
+.table-result-head {
+    background-color: #f0ad4e;
+}
+
+.table-result-body {
+    background-color: white;
+}

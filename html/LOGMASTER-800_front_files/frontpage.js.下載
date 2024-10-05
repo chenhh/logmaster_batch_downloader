@@ -1,0 +1,100 @@
+$(document).ready(function(){
+    $(".panel-body").hover(
+        function () {
+            $(this).addClass('gvl-panel-body-lightgray');
+        }, 
+        function () {
+            $(this).removeClass('gvl-panel-body-lightgray');
+        }
+    );
+
+    $("#search_div").click(function(){
+        $(location).attr("pathname","search.html");
+    });
+    $("#report_div").click(function(){
+        $(location).attr("pathname","report.html");
+    });
+    $("#chcfg_div").click(function(){
+        $(location).attr("pathname","chcfg.html");
+    });
+    $("#devinfo_div").click(function(){
+        $(location).attr("pathname","devinfo.html");
+    });
+    $("#status_div").click(function(){
+        $(location).attr("pathname","status.html");
+    });
+    $("#account-admin_div").click(function(){
+        $(location).attr("pathname","act-admin.html");
+    });
+    $("#account_div").click(function(){
+        $(location).attr("pathname","account.html");
+    });
+    $("#syscfg_div").click(function(){
+        //$(location).attr("pathname","py/upload_ask");
+        $(location).attr("pathname","syscfg.html");
+    });
+
+    
+
+    /*
+    $.get("/wsgi/do_check_session_validate",function(result){
+        if( result !== "idok" ) {
+            $(location).attr("pathname","login.html");
+        }
+    });
+    */
+    $.get("/wsgi/get_user_plevel",function(result){
+        if( result === "iderror" ) {
+            $(location).attr("pathname","login.html");
+        }
+        else {
+            //var jsonResult = JSON.parse(result);
+            //jsonResult.UNAME
+            var pl = result.PLEVEL;
+            var user = result.UNAME;
+            console.info("level:" + pl + " " + user);
+            sessionStorage.setItem("login-name", user);
+            /*
+            $("#login-name").text(user);
+            sessionStorage.setItem("func-frontpage", langObj["nav-fp"]);
+            sessionStorage.setItem("func-search", langObj["p2-1"]);
+            sessionStorage.setItem("func-chcfg", langObj["p2-5"]);
+            sessionStorage.setItem("func-devinfo", langObj["p2-7"]);
+            sessionStorage.setItem("func-status", langObj["p2-3"]);
+            sessionStorage.setItem("func-act-admin", langObj["p2-13"]);
+            sessionStorage.setItem("func-account", langObj["p2-9"]);
+            sessionStorage.setItem("func-syscfg", langObj["p2-11"]);
+            */
+           $.get("/wsgi/check_brand",function(brand){
+                //console.info(brand);
+                initNavbar(user, brand);
+                
+                if( pl != "0" ) {
+                    $("#div-search").show();
+                    if( brand != "GVL_WINDOWS" ){
+                        $("#div-status").show();
+                    }
+                    //$("#div-chcfg").hide();
+                    //$("#div-devinfo").hide();
+                    $("#div-account").show();
+                    //$("#div-syscfg").hide();
+                }
+                else {
+                    $("#div-search").show();
+                    $("#div-report").show();
+                    $("#div-account-admin").show();
+                    $("#div-account").show();
+                    $("#div-syscfg").show();
+                    if( brand != "GVL_WINDOWS" ){
+                        $("#div-status").show();
+                        $("#div-chcfg").show();
+                        $("#div-devinfo").show();
+                    }
+                }
+                
+            });
+
+            
+        }
+    });
+});

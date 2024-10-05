@@ -1,0 +1,76 @@
+/*
+$(document).ready(function(){
+    g_userName = sessionStorage.getItem("login-name");
+    $("#login-name").text(g_userName);
+
+    $("#nav-func-list").append("<li><a href=\"frontpage.html\">" + sessionStorage.getItem("func-frontpage") + "</a></li>");
+    $("#nav-func-list").append("<li role=\"separator\" class=\"divider\"></li>");
+    $("#nav-func-list").append("<li><a href=\"search.html\">" + sessionStorage.getItem("func-search") + "</a></li>");
+    $("#nav-func-list").append("<li><a href=\"status.html\">" + sessionStorage.getItem("func-status") + "</a></li>");
+    if( g_userName === "admin" ) { 
+        $("#nav-func-list").append("<li><a href=\"chcfg.html\">" + sessionStorage.getItem("func-chcfg") + "</a></li>"); 
+        $("#nav-func-list").append("<li><a href=\"devinfo.html\">" + sessionStorage.getItem("func-devinfo") + "</a></li>");
+        $("#nav-func-list").append("<li><a href=\"act-admin.html\">" + sessionStorage.getItem("func-act-admin") + "</a></li>");
+    }
+    $("#nav-func-list").append("<li><a href=\"account.html\">" + sessionStorage.getItem("func-account") + "</a></li>");
+    if( g_userName === "admin" ) { 
+        $("#nav-func-list").append("<li><a href=\"syscfg.html\">" + sessionStorage.getItem("func-syscfg") + "</a></li>");
+    }
+
+    // Add hover effect to menus
+    $('ul.nav li.dropdown').hover(
+        function(){ $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn("fast"); }, 
+        function(){ $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut("fast");}
+    );
+});
+*/
+var initNavbar = function ( userName, brand ) {
+    console.info("navbar: " + userName + "," +  brand);
+    sessionStorage.setItem("func-frontpage", langObj["nav-fp"]);
+    sessionStorage.setItem("func-search", langObj["p2-1"]);
+    sessionStorage.setItem("func-report", langObj["p2-15"]);
+    sessionStorage.setItem("func-chcfg", langObj["p2-5"]);
+    sessionStorage.setItem("func-devinfo", langObj["p2-7"]);
+    sessionStorage.setItem("func-status", langObj["p2-3"]);
+    sessionStorage.setItem("func-act-admin", langObj["p2-13"]);
+    sessionStorage.setItem("func-account", langObj["p2-9"]);
+    sessionStorage.setItem("func-syscfg", langObj["p2-11"]);
+
+    $("#login-name").text(userName);
+    if( brand == "GVL_WINDOWS" ) {
+        $("#nav-func-list").append("<li><a href=\"frontpage.html\">" + sessionStorage.getItem("func-frontpage") + "</a></li>");
+        $("#nav-func-list").append("<li role=\"separator\" class=\"divider\"></li>");
+        $("#nav-func-list").append("<li><a href=\"search.html\">" + sessionStorage.getItem("func-search") + "</a></li>");
+
+        if( userName === "admin" ) {
+            $("#nav-func-list").append("<li><a href=\"report.html\">" + sessionStorage.getItem("func-report") + "</a></li>");
+            $("#nav-func-list").append("<li><a href=\"act-admin.html\">" + sessionStorage.getItem("func-act-admin") + "</a></li>");
+        }
+        $("#nav-func-list").append("<li><a href=\"account.html\">" + sessionStorage.getItem("func-account") + "</a></li>");
+        if( userName === "admin" ) { 
+            $("#nav-func-list").append("<li><a href=\"syscfg.html\">" + sessionStorage.getItem("func-syscfg") + "</a></li>");
+        }
+    }
+    else { // 800 SD full
+        $("#nav-func-list").append("<li><a href=\"frontpage.html\">" + sessionStorage.getItem("func-frontpage") + "</a></li>");
+        $("#nav-func-list").append("<li role=\"separator\" class=\"divider\"></li>");
+        $("#nav-func-list").append("<li><a href=\"search.html\">" + sessionStorage.getItem("func-search") + "</a></li>");
+        $("#nav-func-list").append("<li><a href=\"status.html\">" + sessionStorage.getItem("func-status") + "</a></li>");
+        if( userName === "admin" ) { 
+            $("#nav-func-list").append("<li><a href=\"report.html\">" + sessionStorage.getItem("func-report") + "</a></li>");
+            $("#nav-func-list").append("<li><a href=\"chcfg.html\">" + sessionStorage.getItem("func-chcfg") + "</a></li>"); 
+            $("#nav-func-list").append("<li><a href=\"devinfo.html\">" + sessionStorage.getItem("func-devinfo") + "</a></li>");
+            $("#nav-func-list").append("<li><a href=\"act-admin.html\">" + sessionStorage.getItem("func-act-admin") + "</a></li>");
+        }
+        $("#nav-func-list").append("<li><a href=\"account.html\">" + sessionStorage.getItem("func-account") + "</a></li>");
+        if( userName === "admin" ) { 
+            $("#nav-func-list").append("<li><a href=\"syscfg.html\">" + sessionStorage.getItem("func-syscfg") + "</a></li>");
+        }
+    }
+    
+    // Add hover effect to menus
+    $('ul.nav li.dropdown').hover(
+        function(){ $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn("fast"); }, 
+        function(){ $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut("fast");}
+    );
+}

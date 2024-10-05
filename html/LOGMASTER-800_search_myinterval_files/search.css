@@ -1,0 +1,155 @@
+span {
+    white-space: nowrap;
+}
+
+hr {
+	margin-top: 40px; margin-bottom: 40px;
+}
+
+.fixed-width{
+    width: 150px;
+}
+
+.PlayInfo{
+    padding-top:15px;
+    padding-bottom: 15px;
+    color: #9e9e9e;
+}
+
+.e-audio{
+    width:100%;
+    max-width: 900px;
+}
+
+.e-btn-search{
+    width: 230px;
+}
+
+.e-btn-filter{
+    width: 80px;
+    margin-right: 10px;
+}
+
+.e-tbody-filter{
+    background-color: #fcf8e3;
+}
+
+.e-div-span{
+    width: 1em;
+}
+
+.e-td-play{
+    cursor: pointer;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    /*float: none; */
+    margin-top: 6px;
+ }
+
+ .filter-vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 6px;
+ }
+
+ .div-filter {
+    margin-left: 60px;
+    margin-right: 60px;
+ }
+
+ .div-filter > .form-group {
+     margin-top: 1em;
+ }
+
+ .div-result-order-btn-group {
+    margin-top: 20px;
+    margin-right: 10px;
+ }
+
+.div-result-filter-text {
+    margin-top: 27px;
+    margin-right: 20px;
+    color: orange;
+    cursor: pointer;
+}
+
+.gi-small{
+    font-size: 0.8em;
+    margin-left: 0.5em;
+}
+
+.e-label {
+    margin-right: 1rem;
+}
+
+.e-label-fw {
+    margin-left: 2rem;
+    margin-right: 1rem;
+}
+
+.e-channlelist {
+    width: 25rem !important;
+}
+
+.e-div-time-range {
+    margin-top: 2rem;
+}
+
+.e-div-time-range-bw {
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px){
+    .e-4number {
+        width: 5.5em !important;
+    }
+    .e-5number {
+        width: 6em !important;
+    }
+}
+
+.e-share-btn {
+    float: right;
+    margin-right: 15px;
+    font-size: 1.2em;
+    
+    cursor: pointer;
+}
+
+.e-share-btn-color {
+    color: #f0ad4e;
+}
+
+.e-share-btn-color-clicked {
+    color: #eed8b9;
+}
+
+.wf {
+    background-color: #92a5ce;
+    
+}
+
+.wftl {
+    background-color: #e6eeff;
+}
+
+.e-just-played-id {
+    color:white;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    background-color: blue ;
+}
+
+#volSlider {
+    width: 70px;
+    margin-left: 20px;
+}
+
+#volSlider .slider-selection {
+	background: #92a5ce;
+}
+
+textarea { resize:vertical; }

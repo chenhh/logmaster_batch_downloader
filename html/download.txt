@@ -1,0 +1,10 @@
+<td class="e-td-play" onclick="download('0','286','2024-08-31 23:39:36')"><span class="glyphicon glyphicon-volume-down" aria-hidden="true"></span></td>
+
+
+ var fileURL = "/wsgi/downloadrec?" + "device_id=" + cur_sid + "&fileid=" + cur_file_id;
+    $("#dl_iframe").attr("src", fileURL);
+
+/wsgi/downloadrec?device_id=0&fileid=Ch5_2024-08-31_23-39-36_6_2024-08-31_23-39-42_.mp3
+
+
+http://192.168.1.100/audio_mnt/000/ch4/20240829/164503.mp3

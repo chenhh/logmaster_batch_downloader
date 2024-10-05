@@ -1,0 +1,23 @@
+.gvl-panel-body-lightgray{
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+p{
+    color: #666666;
+}
+
+.e-bg-primary {
+    color: white !important;
+    background-color: #337ab7 !important;
+}
+
+.e-bg-info {
+    color: white !important;
+    background-color: #5bc0de !important;
+}
+
+.e-bg-danger {
+    color: white !important;
+    background-color: #d9534f !important;
+}

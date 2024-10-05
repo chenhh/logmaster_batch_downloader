@@ -1,0 +1,52 @@
+var langObj = {};
+
+function readconf(){
+    $.get("/lang/default.txt",function(data){
+        
+        var lines = data.split("\r\n");
+        for(var i = 0;i < lines.length;i++){
+            lines[i].trim();
+            if( lines[i].length < 1) {continue;}
+            if( lines[i].charAt(0) === "\\" ) {continue;}
+            if( lines[i].indexOf("=") == -1 ) {continue;}
+            //console.info("read text :" +  lines[i]);
+            var keyvalue = lines[i].split("=")
+            if( keyvalue.length == 2){
+                langObj[keyvalue[0]] = keyvalue[1];
+            }
+        }
+
+        applyLanguage();
+    }, "text");
+}
+
+function applyLanguage(){
+    console.info("lang key value: " +  Object.keys(langObj).length );
+    //alert("lang key value: " +  Object.keys(langObj).length);
+    if(Object.keys(langObj).length == 0) return;
+
+    if(langObj.hasOwnProperty("title")){
+        document.title = langObj["title"];
+    }
+    
+
+    $('span[class^="lang"], option[class^="lang"]').each(function(){
+        var langVar = (this.className).replace("lang-","");
+        if(langObj.hasOwnProperty(langVar)){
+            var langText = langObj[langVar];
+            console.info("selectd lang class:" + langVar);
+            if(langText.length > 0){
+                $(this).text(langText);
+            }
+        }
+        else{
+            $(this).text("E003");
+        }
+    });
+
+
+}
+
+$(document).ready(function () {
+    readconf();
+});

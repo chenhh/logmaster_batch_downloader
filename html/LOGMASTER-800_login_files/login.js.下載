@@ -1,0 +1,60 @@
+
+$(window).bind('setup', function() {
+    var langObj2 = {};
+    $.get("/lang/default.txt",function(data){
+        var lines = data.split("\r\n");
+        for(var i = 0;i < lines.length;i++){
+            lines[i].trim();
+            if( lines[i].length < 1) {continue;}
+            if( lines[i].charAt(0) === "\\" ) {continue;}
+            if( lines[i].indexOf("=") == -1 ) {continue;}
+            //console.info("read text :" +  lines[i]);
+            var keyvalue = lines[i].split("=")
+            if( keyvalue.length == 2){
+                langObj2[keyvalue[0]] = keyvalue[1];
+            }
+        }
+        $("#iput-user").attr("placeholder",langObj2["p1-2"] );
+        $("#iput-pwd").attr("placeholder",langObj2["p1-3"] );
+        //applyLanguage();
+    }, "text");
+ });
+
+$(document).ready(function(){
+    $(window).trigger('setup');
+    sessionStorage.clear();
+    $.get("/wsgi/license_duetime",function(res){
+        if(res.indexOf("ERROR") == -1){
+            // has license
+            // check date
+            var now = new Date();
+            var lic_day = Date.parse(res);
+            
+            $("#show-lic").text(langObj["lic-title"] + " " + res);
+            
+            if( lic_day - now <= (1000*60*60*24 * 30) ){
+                $("#show-lic").addClass("text-danger");
+                
+            }
+        } else {
+            // no license
+        }
+    });
+
+    $("#loginform").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btn_sub").click();
+        }
+    });
+    $("#btn_sub").click(function(){
+        var data=$("form").serialize();
+        $.post("/wsgi/login", data, function(result){
+            if( result == "idok" ){
+                $(location).attr('href','frontpage.html');
+            }
+            else {
+                $(location).attr('href','error.html');
+            }
+        });
+    });
+});

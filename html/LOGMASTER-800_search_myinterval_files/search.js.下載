@@ -1,0 +1,1090 @@
+var cur_ip;
+var cur_ch;
+var cur_sid;
+var cur_rid;
+var cur_stime;
+var cur_clen;
+var arrCur_total_result = [];
+var arrCur_result = [];
+var arrCur_filtered_result = [];
+var cur_page;
+var cur_result_type; //is filted?
+var cur_total_pages;
+var cur_result_order;
+//var total_pages;
+var page_size = 100;
+var jsonServerList;
+var cur_user;
+var cur_surl; //share url
+var wavep;
+var _cur_asr_url; // asr url
+var _cur_result_same_name = 1;
+
+//asr
+var asrEnable = false;
+
+function objPlayList(sid, rid, fid, chnumber, user, phone, stime, etime, clen, calldir, callid, asr) {
+    this.sid = sid, // server id
+    this.rid = rid; // search result id (1 based)
+    this.fid = fid; // db file id
+    this.chnumber = chnumber; // Channel No
+    this.user = user;
+    this.phone = phone;
+    this.stime = stime; // record start time
+    this.etime = etime; // record end time
+    this.clen = clen; // call length
+    this.calldir = calldir; // call dir
+    this.callid = callid; // callid / dtmf
+    this.asr = asr; //asr result 0:no 1:exist other:no asr func
+}
+
+$(document).ready(function () {
+    //$(window).trigger('setup');
+    var btnDLEnabled = false;
+    cur_result_type = 0;
+    cur_result_order = "desc";
+    _cur_result_same_name = 1;
+    //$("#dlbtn").prop("disabled",true);
+    $("#dlbtn").prop("disabled", false).addClass("btn-success");
+    $("#prev-btn").prop("disabled", true).removeClass("btn-info");
+    $("#next-btn").prop("disabled", true).removeClass("btn-info");
+    $("#frist-btn").prop("disabled", true);
+    $("#last-btn").prop("disabled", true);
+    $("#restable").hide();
+    $("#filter-panel").hide();
+    $("#reslut-filter-link").hide();
+    $("#div-time-range").hide();
+    $("#btn-result-order").hide();
+
+    var currentOPFile = "";
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    $('input[name=year]').val(yyyy);
+    $('input[name=month]').val(mm);
+    $('input[name=day]').val(dd);
+    $('input[name=hour]').val('00');
+    $('input[name=min]').val('00');
+    $('input[name=sec]').val('00');
+    $('input[name=yearend]').val(yyyy);
+    $('input[name=monthend]').val(mm);
+    $('input[name=dayend]').val(dd);
+    $('input[name=hourend]').val('23');
+    $('input[name=minend]').val('59');
+    $('input[name=secend]').val('59');
+
+    $.get("/wsgi/getdevice", processList);
+    function processList(result) {
+        $("#server").empty();
+        if (result == "iderror") {
+            $(location).attr("pathname", "login.html");
+        }
+        else {
+            var jsonResult = JSON.parse(result);
+            jsonServerList = jsonResult;
+            $.each(jsonResult, function (data, dataInfo) {
+                if(dataInfo.ip == "localhost"){ // only add locahost and ignore others
+                    var option = $("<option>").val(dataInfo.device_id).text(dataInfo.name);
+                    $("#server").append(option);
+                }
+            });
+        }
+    }
+
+    $.get("/wsgi/get_user_plevel", function(result){
+        if( result === "iderror" ) {
+            $(location).attr("pathname","login.html");
+        }
+        else {
+            var un = result.UNAME;
+            if(un.length == 0) {
+                cur_user = "|NULL|";
+            }
+            else {
+                sessionStorage.setItem("login-name", un);
+                $.get("/wsgi/check_brand",function(brand){
+                    //console.info(brand);
+                    initNavbar(un, brand);
+                });
+                cur_user = un;
+                console.info("get user: " + cur_user);
+                fillChList();
+            }
+        }
+    });
+
+    function fillChList() {
+        if( cur_user != "|NULL| ") {
+            $.get("/wsgi/get_user_account_lineuser", function(result){
+                $("#ch_username").empty();
+                var jsonUserCfg = result;
+                var nameKeys = Object.keys(jsonUserCfg);
+                if (nameKeys.length == 0) return;
+                for(var i=0; i<nameKeys.length; i++){
+                    if( cur_user == nameKeys[i]) {
+                        var option;
+                        option = $("<option>").val("*").text(langObj["p3-4"]); // all
+                        $("#ch_username").append(option);
+    
+                        var subLU = jsonUserCfg[nameKeys[i]].SUB_LINEUSER;
+                        for (var j = 0; j < subLU.length; j++) {
+                            var sUserName;
+                            var sPhoneNumber;
+                            if (subLU[j].USERNAME.length > 10) {
+                                sUserName = subLU[j].USERNAME.substr(0, 10) + "...";
+                            }
+                            else {
+                                sUserName = subLU[j].USERNAME;
+                            }
+                            if (subLU[j].PHONENUMBER.length > 12) {
+                                sPhoneNumber = subLU[j].PHONENUMBER.substr(0, 12) + "...";
+                            }
+                            else {
+                                sPhoneNumber = subLU[j].PHONENUMBER;
+                            }
+                            var sValue = sUserName + "&nbsp;&nbsp;" + sPhoneNumber;
+                            option = $("<option>").val(subLU[j].USERNAME).html(sValue);
+                            $("#ch_username").append(option);
+                        }
+    
+                        break; // only 1 user
+                    }
+                }
+            });
+        }
+    }
+    
+
+    $('#server').change(function () {
+        for(var i=0; i<jsonServerList.length; i++){
+            if(jsonServerList[i].device_id == this.value){
+                console.info("Select change IP: " + jsonServerList[i].ip);
+                //$.get( jsonServerList[i].device_id + "/py/chsconfig", processChList);
+                break;
+            }
+        }
+    });
+
+    $('.BSswitch').bootstrapSwitch();
+    /*
+    $('.BSswitch').on('switch-change', function () {
+        $('.BSswitch').bootstrapSwitch('toggleRadioStateAllowUncheck', true);
+    });
+    */
+    /*
+    $('input[type=radio], input[type=checkbox]').checks({
+        class_radio: 'ico-radio',
+        class_checkbox: 'ico-checkbox',
+        class_checked: 'sed',
+        class_disabled: 'disabled'
+    });
+    */
+    $('#stime').change(function () {
+        if (this.value == "s-range") {
+            $("#div-time-range").show();
+        }
+        else {
+            $("#div-time-range").hide();
+        }
+    });
+
+    $("#searchbtn").click(function () {
+
+        // filter function ui
+        $("#f-number").prop("disabled", false);
+        $("#f-tl-check").prop("checked", false);
+        $("#f-tl-check").prop("disabled", false);
+        $("#f-tl-select").prop("disabled", true);
+        $("#f-tl").prop("disabled", true);
+        $("#f-cd-check").prop("checked", false);
+        $("#f-cd-check").prop("disabled", false);
+        $("#f-cd-select").prop("disabled", true);
+
+        // deafult not shown
+        $("#f-tspan-check").prop("checked", false);
+        $("#div-filter-timespan").hide();
+
+        $("#restable").show();
+        $("#reslut-filter-link").show();
+        $("#btn-result-order").show();
+        cur_result_type = 0; // search result
+        _cur_result_same_name = 1; //reset
+        
+        var svalue = $("#stime").val();
+        //console.info("current selected date:" + svalue);
+        if (svalue != "s-range") {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0
+            var yyyy = today.getFullYear();
+            var ddStart = dd;
+            var mmStart = mm;
+            var yyyyStart = yyyy;
+
+            if (svalue === "s-today") {
+                dd = today.getDate();
+                mm = today.getMonth() + 1; //January is 0
+                yyyy = today.getFullYear();
+
+                ddStart = dd;
+                mmStart = mm;
+                yyyyStart = yyyy;
+            }
+            if (svalue === "s-yesterday") {
+                var startDate = new Date(new Date().setDate(today.getDate() - 1));
+                ddStart = startDate.getDate();
+                mmStart = startDate.getMonth() + 1; //January is 0
+                yyyyStart = startDate.getFullYear();
+
+                dd= ddStart;
+                mm = mmStart;
+                yyy = yyyyStart;
+            }
+            if (svalue === "s-latest-3") {
+                var startDate = new Date(new Date().setDate(today.getDate() - 2));
+                ddStart = startDate.getDate();
+                mmStart = startDate.getMonth() + 1; //January is 0
+                yyyyStart = startDate.getFullYear();
+            }
+            if (svalue === "s-latest-7") {
+                var startDate = new Date(new Date().setDate(today.getDate() - 6));
+                ddStart = startDate.getDate();
+                mmStart = startDate.getMonth() + 1; //January is 0
+                yyyyStart = startDate.getFullYear();
+            }
+            if (svalue === "s-latest-30") {
+                var startDate = new Date(new Date().setDate(today.getDate() - 29));
+                ddStart = startDate.getDate();
+                mmStart = startDate.getMonth() + 1; //January is 0
+                yyyyStart = startDate.getFullYear();
+            }
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (ddStart < 10) {
+                ddStart = '0' + ddStart;
+            }
+            if (mmStart < 10) {
+                mmStart = '0' + mmStart;
+            }
+            $('input[name=year]').val(yyyyStart);
+            $('input[name=month]').val(mmStart);
+            $('input[name=day]').val(ddStart);
+            $('input[name=hour]').val('00');
+            $('input[name=min]').val('00');
+            $('input[name=sec]').val('00');
+            $('input[name=yearend]').val(yyyy);
+            $('input[name=monthend]').val(mm);
+            $('input[name=dayend]').val(dd);
+            $('input[name=hourend]').val('23');
+            $('input[name=minend]').val('59');
+            $('input[name=secend]').val('59');
+        }
+
+        searchfunc(0);
+    });
+
+    $("#reslut-filter-link").click(function () {
+        if( $("#filter-panel").is(":visible") ) {
+            $("#filter-panel").hide();
+        }
+        else {
+            $("#filter-panel").show();
+        }
+    });
+
+    $("#f-tl-check").click(function () {
+        if ($("#f-tl-check").is(':checked')) {
+            $("#f-tl-select").prop("disabled", false);
+            $("#f-tl").prop("disabled", false);
+        }
+        else {
+            $("#f-tl-select").prop("disabled", true);
+            $("#f-tl").prop("disabled", true);
+        }
+    });
+
+    $("#f-cd-check").click(function () {
+        if ($("#f-cd-check").is(':checked')) {
+            $("#f-cd-select").prop("disabled", false);
+        }
+        else {
+            $("#f-cd-select").prop("disabled", true);
+        }
+    });
+
+    $("#f-tspan-check").click(function () {
+        if ($("#f-tspan-check").is(':checked')) {
+            $("#f-tspan").prop("disabled", false);
+            //disable others
+            $("#f-number").prop("disabled", true);
+            
+            if ($("#f-tl-check").is(':checked')) {
+                $("#f-tl-check").click();
+            }
+            $("#f-tl-check").prop("disabled", true);
+
+            if ($("#f-cd-check").is(':checked')) {
+                $("#f-cd-check").click();
+            }
+            $("#f-cd-check").prop("disabled", true);
+
+        }
+        else {
+            $("#f-tspan").prop("disabled", true);
+            //enable others
+            $("#f-number").prop("disabled", false);
+            $("#f-tl-check").prop("disabled", false);
+            $("#f-cd-check").prop("disabled", false);
+        }
+    });
+
+    $("#f-btn-filter").click(function () {
+        if (arrCur_filtered_result.length != 0) {
+            arrCur_filtered_result.length = 0;
+        }
+
+        if ($("#f-tspan-check").is(':checked')) {
+            //do time span fileter
+            var sptimeInt = parseInt($("#f-tspan").val());
+            if( sptimeInt < 10 ) tspan = 10;
+            var resultLength = arrCur_result.length;
+            for (var i = 0; i < resultLength-1; i++) {
+                var curEt = arrCur_result[i].etime;
+                var nextSt =  arrCur_result[i+1].stime;
+                var spSec = sbd(curEt,nextSt);
+                if( spSec >= sptimeInt ){
+                    console.info("stop:"+ curEt + " next star:"+ nextSt + "    sbd:" +spSec);
+                    arrCur_filtered_result.push(arrCur_result[i+1]);
+                }
+            }
+        }
+        else {
+            var fNumber = $("#f-number").val();
+            fNumber = $.trim(fNumber);
+            if (fNumber.length == 0) {
+                if ($("#f-tl-check").is(':checked') || $("#f-cd-check").is(':checked')) {
+                    arrCur_filtered_result = arrCur_result.slice(0);
+                }
+                else {
+                    return;
+                }
+            }
+            else {
+                for (var i = 0; i < arrCur_result.length; ++i) {
+                    var curNumber = arrCur_result[i].callid;
+
+                    if (curNumber.search(fNumber) != -1) {
+                        arrCur_filtered_result.push(arrCur_result[i]);
+                    }
+                }
+            }
+
+
+            if ($("#f-tl-check").is(':checked')) {
+                var arrTL = [];
+                var tl = parseInt($("#f-tl").val());
+                if (tl == NaN) return;
+                if ($("#f-tl-select").val() == "0") { // =
+                    for (var i = 0; i < arrCur_filtered_result.length; ++i) {
+                        if (parseInt(arrCur_filtered_result[i].clen) == tl) {
+                            arrTL.push(arrCur_filtered_result[i]);
+                        }
+                    }
+                }
+                if ($("#f-tl-select").val() == "1") { // >=
+                    for (var i = 0; i < arrCur_filtered_result.length; ++i) {
+                        if (parseInt(arrCur_filtered_result[i].clen) >= tl) {
+                            arrTL.push(arrCur_filtered_result[i]);
+                        }
+                    }
+                }
+                if ($("#f-tl-select").val() == "2") { // <=
+                    for (var i = 0; i < arrCur_filtered_result.length; ++i) {
+                        if (parseInt(arrCur_filtered_result[i].clen) <= tl) {
+                            arrTL.push(arrCur_filtered_result[i]);
+                        }
+                    }
+                }
+                arrCur_filtered_result.length = 0;
+                arrCur_filtered_result = arrTL.slice(0);
+            }
+
+            if ($("#f-cd-check").is(':checked')) {
+                var arrTL = [];
+                if ($("#f-cd-select").val() == "0") { // call in
+                    for (var i = 0; i < arrCur_filtered_result.length; ++i) {
+                        console.info(arrCur_filtered_result[i].calldir);
+                        if (arrCur_filtered_result[i].calldir == "i") {
+
+                            arrTL.push(arrCur_filtered_result[i]);
+                        }
+                    }
+                }
+                if ($("#f-cd-select").val() == "1") { // call out
+                    for (var i = 0; i < arrCur_filtered_result.length; ++i) {
+                        if (arrCur_filtered_result[i].calldir == "o") {
+                            console.info(arrCur_filtered_result[i].calldir);
+                            arrTL.push(arrCur_filtered_result[i]);
+                        }
+                    }
+                }
+                arrCur_filtered_result.length = 0;
+                arrCur_filtered_result = arrTL.slice(0);
+            }
+        }
+        
+        arrCur_result = arrCur_filtered_result.slice(0);
+        cur_result_type = 1;
+        makePagination();
+        cur_page = 1;
+        showPageContent(cur_page);
+        //showCurrentPlayList(1);
+    });
+
+    $("#f-btn-reset").click(function () {
+        if ($("#f-tl-check").is(':checked')) {
+            $("#f-tl-check").prop("checked", false);
+            $("#f-tl-select").prop("disabled", true);
+            $("#f-tl").prop("disabled", true);
+        }
+        if ($("#f-cd-check").is(':checked')) {
+            $("#f-cd-check").prop("checked", false);
+            $("#f-cd-select").prop("disabled", true);
+        }
+
+        $("#f-number").val("");
+
+        if ($("#f-tspan-check").is(':checked')) {
+            $("#f-tspan-check").prop("checked", false);
+            $("#f-tspan").prop("disabled", true);
+
+            $("#f-number").prop("disabled", false);
+            $("#f-tl-check").prop("disabled", false);
+            $("#f-cd-check").prop("disabled", false);
+
+        }
+
+        arrCur_result = arrCur_total_result.slice(0);
+        console.info("CURRENT ORDER =  " + cur_result_order);
+        if( cur_result_order == "desc" ) {
+           
+           // arrCur_result.reverse();
+        }
+        cur_result_type = 0;
+        makePagination();
+        cur_page = 1;
+        showPageContent(cur_page);
+
+    });
+
+    $("#btn-result-order").click(function () {
+        if (cur_result_order == "asc") {
+            cur_result_order = "desc";
+            $("#gi-order").removeClass("glyphicon-arrow-down").addClass("glyphicon-arrow-up");
+        } else {
+            cur_result_order = "asc";
+            $("#gi-order").removeClass("glyphicon-arrow-up").addClass("glyphicon-arrow-down");
+        }
+        arrCur_result.reverse();
+        makePagination();
+        cur_page = 1;
+        showPageContent(cur_page);
+    });
+
+
+    $("#nav-result-nav ul").on("click","li",function() {
+        event.preventDefault();
+        var selPage = $( this ).text();
+        console.log( "click page number: " + selPage );
+        if( $.isNumeric(selPage) ){
+            if(! $( this ).hasClass("active") ){
+                cur_page = parseInt(selPage);
+                showPageContent(cur_page);
+            }
+        }
+        else{
+            if( $( this ).attr("id") == "prev-li" ){
+                --cur_page;
+                showPageContent(cur_page);
+            }
+            if( $( this ).attr("id") == "next-li" ){
+                ++cur_page;
+                showPageContent(cur_page);
+            }
+        }
+    });
+
+    // share btn
+    $("#share-btn").click(function () {
+        var ret = copyToClipboard(cur_surl);
+        $("#share-btn").removeClass("e-share-btn-color").addClass("e-share-btn-color-clicked");
+    });
+
+    // asr btn
+    $("#asrbtn").click(function () {
+        $("#asrbtn").prop("disabled", true);
+        $("#asrspinner").show();
+        $.get("/wsgi/asr_request/" + _cur_asr_url, function(result){
+            if( result === "iderror" ) {
+                $(location).attr("pathname","login.html");
+            }
+            else {
+                // update result array
+                for (i = 0; i < arrCur_result.length; ++i) {
+                    if (arrCur_result[i].rid == cur_rid) {
+                        arrCur_result[i].asr = "1";
+                        break;
+                    }
+                }
+                // update ui
+                
+                //
+                $("#asrspinner").hide();
+                $("#asrbtndiv").hide();
+                $("#asrlistdiv").show();
+                var jsonResult = JSON.parse(result);
+                var msg = "";
+                for(i=0; i<jsonResult.length; i++) {
+                    msg = msg + jsonResult[i] + "\r";
+                }
+                $("#asrresult").val( msg );
+                console.info("asr text:" + jsonResult.toString() );
+            }
+        });
+        //$("#share-btn").removeClass("e-share-btn-color").addClass("e-share-btn-color-clicked");
+    });
+
+    wavep = WaveSurfer.create({
+        container: '#waveform',
+        height: 64,
+        waveColor: 'lightgray',
+        progressColor: '#0b50b8',
+        plugins: [
+            WaveSurfer.timeline.create({
+                container: "#waveform-timeline"
+            })
+        ]
+    });
+ 
+    wavep.on('ready', function () {
+        /*
+        var tl = Object.create(WaveSurfer.Timeline);
+        tl.init({
+            wavesurfer: wavep,
+            container: '#waveform-timeline'
+        });
+        */
+        wavep.play();
+    });
+ 
+    wavep.on('finish', function () {
+        var opval = $('input[name=EndOperation]:checked').val();
+        console.info(opval);
+        if( opval == "repeat"){
+            wavep.play(0);
+        }
+        if( opval == "playnext"){
+            autoDownloadNextFile();
+        }
+    });
+    
+    $("#playRate").change(function(){
+        var selPR= $("#playRate").val();
+        wavep.setPlaybackRate(selPR);
+    });
+
+    // volume contorl
+    var volSlider = $("#volume").bootstrapSlider({
+        tooltip : "hide"
+    });
+    volSlider.on("change", function(v){
+        console.info(v.value.newValue);
+        wavep.setVolume(v.value.newValue);
+    });
+
+    function makePagination() {
+        clearPagination();
+        var resLength = arrCur_result.length;
+        if( resLength == 0) return;
+        cur_total_pages = Math.trunc(resLength / page_size);
+        var mod = resLength % page_size;
+        if(mod != 0){
+            cur_total_pages++;
+        }
+        //var cur_total_pages = Math.trunc(resLength / page_size);
+        console.info("cur total pages:" + cur_total_pages );
+        if (cur_total_pages > 0) {
+            $("#nav-result-nav > ul").append("<li id=\"prev-li\"><a href=\"#\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>");
+            for (var i = 0; i < cur_total_pages; i++) {
+                $("#nav-result-nav > ul").append("<li><a href=\"#\">" + (i + 1) + "</a></li>");
+            }
+            $("#nav-result-nav > ul").append("<li id=\"next-li\"><a href=\"#\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>");
+        }
+
+    }
+
+    function clearPagination() {
+        $("#nav-result-nav > ul").empty();
+    }
+
+
+    function showPageContent(pageNumber) {
+        var arrResultList = [];
+        if (cur_total_pages == 1){
+            pageNumber = 1;
+        }
+        if(pageNumber > cur_total_pages){
+            pageNumber = cur_total_pages;
+        }
+        if( pageNumber <=0 ){
+            pageNumber = 1;
+        }
+
+        cur_page = pageNumber;
+
+        console.info("show page: " + pageNumber);
+        $("#nav-result-nav > ul > li").removeClass("active");
+        $("#nav-result-nav > ul > li:nth-child(" +(pageNumber+1)+ ")").addClass("active");
+        
+        arrResultList = arrCur_result.slice( (pageNumber-1) * page_size, pageNumber * page_size);
+        console.info("current page result count: " + arrResultList.length + " type: " + cur_result_type);
+        if( cur_result_type == 1){
+            $("#restable > tbody").addClass("e-tbody-filter");
+        }
+        else{
+            $("#restable > tbody").removeClass("e-tbody-filter");
+        }
+        $("#restable > tbody").empty();
+        if (arrResultList.length > 0) {
+            //$("#restable").append("<tr><td>序号</td><td>通道号</td><td>用户</td><td>线路号码</td><td>录音起始时间</td><td>录音时长</td><td>呼叫方向</td><td>号码</td><td>播放/下载</td></tr>");
+            for (var i = 0; i < arrResultList.length; ++i) {
+                var res = new String();
+                res = "<tr>";
+                var timestop = new String();
+                // 1,3704,2017-09-30 13:02:18,5,2017-09-30 13:02:23,i,13361843100,0,agentname,phonenumber,asr-func;
+                var calldir = new String();
+                //if (arrResultList[i].calldir == "i") { calldir = "呼入"; }
+                //if (arrResultList[i].calldir == "o") { calldir = "呼出"; }
+                if (arrResultList[i].calldir == "i") { calldir = langObj["p3-25"]; }
+                if (arrResultList[i].calldir == "o") { calldir = langObj["p3-26"]; }
+                var callid = new String();
+                if (arrResultList[i].callid == "") {
+                    callid = "&nbsp;";
+                } else {
+                    callid = arrResultList[i].callid;
+                }
+                var justPlayed = "";
+                if (cur_rid == arrResultList[i].rid) {
+                    justPlayed = "e-just-played-id";
+                }
+                
+                res = res + "<td><span id=\"" + arrResultList[i].rid + "\" class=\"" + justPlayed + "\">" + arrResultList[i].rid + "</span></td><td>" + arrResultList[i].chnumber + "</td><td>" + arrResultList[i].user + "</td><td>" + arrResultList[i].phone + "</td><td>" + arrResultList[i].stime + "</td><td>" + arrResultList[i].clen + "</td><td>" + calldir + "</td><td>" + callid + "</td>"
+                //res = res + "<td><button type=\"button\" class=\"btn btn-default btn-sm\" OnClick=\"download('" + arrResultList[i].sid + "','" + arrResultList[i].rid + "','" + arrResultList[i].stime + "')\"><span class=\"glyphicon glyphicon-volume-up\" aria-hidden=\"true\"></span></button></td>"
+                res = res + "<td class=\"e-td-play\" OnClick=\"download('" + arrResultList[i].sid + "','" + arrResultList[i].rid + "','" + arrResultList[i].stime + "')\"><span class=\"glyphicon glyphicon-volume-up\" aria-hidden=\"true\"></span>"
+                if( arrResultList[i].asr == "1" ) {
+                    res = res + " <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\">"
+                }
+                res = res + "</td>";
+                res = res + "</tr>";
+                $("#restable > tbody").append(res);
+            }
+        }
+    }
+
+    $('#dlModal').on('hidden.bs.modal', function (e) {
+        //$("#dlbtn").prop("disabled",true).removeClass("btn-success");
+        wavep.stop();
+        btnDLEnabled = false;
+        $("#asrlistdiv").hide();
+        $("#asrbtndiv").hide();
+        $("#asrdiv").hide();
+        $("#asrbtn").prop("disabled", false);
+    });
+
+    $('#dlModal').on('shown.bs.modal', function (e) {
+        console.info("modal shown");
+        if(asrEnable) {
+            $("#asrdiv").show();
+            console.info("asrEnable shown");
+        }
+        getandplayrecfile();
+    });
+
+    function searchfunc(searchType) {
+        arrCur_total_result.length = 0;
+        arrCur_result.length = 0;
+        cur_rid = 0;
+        var data;
+        if (searchType == 0) {
+            data = $("form").serialize();
+        }
+
+        $('#shModal').modal('show'); // 
+        $.post("/wsgi/search", data, function (result) {
+            $('#shModal').modal('hide');
+            if (result.length > 20) {
+                var preUser ="!xx1xx";
+                var arr = new Array();
+                arr = result.split(';');
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].length > 0) {
+                        var arrRecord = new Array();
+                        arrRecord = arr[i].split(',');
+                        // 0 - 10
+                        // 1,3704,2017-09-30 13:02:18,5,2017-09-30 13:02:23,i,13361843100,0,agentname,phonenumber,asr-func;
+                        if ( arrRecord[10] == "1" || arrRecord[10] == "0" ) {
+                            asrEnable = true;
+                        }
+                        var tmpResult = new objPlayList(arrRecord[7], (i + 1), arrRecord[1], arrRecord[0], arrRecord[8], arrRecord[9], arrRecord[2], arrRecord[4], arrRecord[3], arrRecord[5], arrRecord[6], arrRecord[10]);
+                        arrCur_total_result.push(tmpResult);
+                        if( preUser === "!xx1xx" ) {
+                            preUser = arrRecord[8];
+                        }
+                        else {
+                            if(preUser != arrRecord[8]) {
+                                _cur_result_same_name = 0;
+                            }
+                            preUser = arrRecord[8];
+                        }
+                    }
+                }
+                arrCur_total_result.reverse(); // asc -> desc
+                arrCur_result = arrCur_total_result.slice(0);
+                console.info("search result total count:" + arrCur_result.length);
+
+                // switch time span filter
+                if( _cur_result_same_name == 1) {
+                    console.info("search result are same name");
+                    $("#div-filter-timespan").show();
+                }
+                else {
+                    console.info("search result are NOT same name");
+                    $("#f-tspan-check").prop("checked", false);
+                    $("#div-filter-timespan").hide();
+                }
+
+                makePagination();
+                cur_page = 1;
+                showPageContent(cur_page);
+                //showCurrentPlayList(0);
+
+            }
+            else {
+                
+                $("#btn-result-order").hide();
+                clearPagination();
+                
+                $("#restable > tbody").empty();
+                if (result == "nodata") {
+                    $("#restable > tbody").append("<p>" + langObj["p3-70"] + "</p>");
+                }
+                if (result == "timeout") {
+                    $("#restable > tbody").append("<p>" + langObj["p3-71"] + "</p>");
+                }
+                if (result == "iderror") {
+                    $(location).attr("pathname", "login.html");
+                }
+                $("#prev-btn").prop("disabled", true).removeClass("btn-info"); // no prev
+                $("#next-btn").prop("disabled", true).removeClass("btn-info"); // no next
+                
+            }
+
+        }); // post
+
+
+    }
+}); // ready
+
+function download(sid, rid, stime) {
+    //alert(timeid);
+    cur_sid = sid;
+    cur_rid = rid;
+    cur_stime = stime;
+    $("#share-btn").removeClass("e-share-btn-color-clicked").addClass("e-share-btn-color");
+    $('#dlModal').modal('show'); // ->on show
+    //getandplayrecfile();
+}
+
+function autoDownloadNextFile(dirc) {
+    arLen = arrCur_result.length;
+    console.info("result length:" +  arLen +  " cur id:" + cur_rid);
+    for (i = 0; i < arLen; i++) {
+        if (arrCur_result[i].rid == cur_rid) {
+            if( dirc == "prev" )
+            {
+                if( cur_rid == arrCur_result[0].rid ){
+                    break;
+                }
+                else{
+                    cur_rid = arrCur_result[i - 1].rid;
+                    cur_stime = arrCur_result[i - 1].stime;
+                    break;
+                }
+            } 
+            else {
+                if( i == (arLen-1) ){
+                    cur_rid = arrCur_result[0].rid;
+                    cur_stime = arrCur_result[0].stime;
+                    break;
+                }
+                else{
+                    cur_rid = arrCur_result[i + 1].rid;
+                    cur_stime = arrCur_result[i + 1].stime;
+                    break;
+                }
+            }
+            
+        }
+    }
+    getandplayrecfile();
+}
+
+function getandplayrecfile() {
+
+    $('#play-id').text(cur_rid);
+    $('#play-stime').text(cur_stime);
+    if (cur_result_order == "asc") {
+        $('#span-play-order').text(langObj["p3-44"]);
+    } else {
+        $('#span-play-order').text(langObj["p3-45"]);
+    }
+    
+    //$("#dlbtn").prop("disabled",true).removeClass("btn-success");
+    //$("#aplayer")[0].currentTime = 0;
+    // just played id
+    $("#restable tr td > span").removeClass("e-just-played-id");
+    //$("#restable tr td:contains('" + cur_rid + "') span").addClass("e-just-played-id"); // 'contains' '1' will match '1' or '11' or '123' or '2313'
+    $("#restable tr td > span[id='"+ cur_rid + "']").addClass("e-just-played-id");
+
+
+
+    // prev next btn
+    if( cur_rid == arrCur_result[0].rid ){
+        $("#playprev").prop("disabled",true);
+    }
+    else {
+        $("#playprev").prop("disabled",false);
+    }
+    if( cur_rid == arrCur_result[arrCur_result.length-1].rid ){
+        $("#playnext").prop("disabled",true);
+    }
+    else {
+        $("#playnext").prop("disabled",false);
+    }
+    /////////////////////////////////////////////
+    var cur_file_id;
+    for (i = 0; i < arrCur_result.length; ++i) {
+        if (arrCur_result[i].rid == cur_rid) {
+            cur_file_id = arrCur_result[i].fid;
+            break;
+        }
+    }
+
+    // get share url
+    cur_surl = "";
+    _cur_asr_url = "";
+    $.get("/wsgi/fileid_share/" +  cur_file_id, function(result){
+        if( result === "iderror" ) {
+            $(location).attr("pathname","login.html");
+        }
+        else {
+            /*
+            var jsonResult = JSON.parse(result);
+            cur_surl = jsonResult[0].share_url;
+            */
+            cur_surl = result;
+            console.info("share url:" + cur_surl);
+            var aryShareURL = cur_surl.split("/");
+            var len = aryShareURL.length;
+            if( len > 2 ) {
+                var param = aryShareURL[len-2] + "/" + aryShareURL[len-1];
+                _cur_asr_url = param;
+                maniASR(param);
+            }
+        }
+    });
+
+    console.info("S:" + cur_sid + ",F:" + cur_file_id);
+    $.post("/wsgi/audio_url_codec",
+        {
+            device_id: cur_sid,
+            fileid: cur_file_id
+        },
+        function (result, state) {
+            console.info(result);
+            if (result == "discon") {
+                $('#dlModal').modal('hide');
+                $('#disModal').modal('show');
+            }
+            else {
+                var jsonResult = JSON.parse(result);
+                let recUrl = "";
+                //console.info(jsonResult.url);
+                if( jsonResult.codec == "IMA_ADPCM" ) {
+                    //  Create an anchor element (note: no need to append this element to the document)
+                    //const url = document.createElement('a');
+                    //  Set href to any path
+                    //url.setAttribute('href', 'test.html');
+                    //console.info(url.hostname);
+                    // http://169.254.70.210/dll/VLanPlay.dll?Play?ID=1133&SessionID=935916117&TimeStr=1539766637349
+                    //$("#aplayer").attr("src", url.protocol + "//" + url.hostname + "/dll/VLanPlay.dll?Play?ID=" + cur_file_id + "&SessionID=gvl_decode_data&TimeStr=1539766637349" );
+                    //$("#aplayer").attr("src", "/dll/VLanPlay.dll?Play?ID=" + cur_file_id + "&SessionID=gvl_decode_data&TimeStr=1539766637349" );
+                    if( window.location.port == "" ) {
+                        recUrl = window.location.protocol + "//" + window.location.hostname + "/dll/VLanPlay.dll?Play?ID=" + cur_file_id + "&SessionID=gvl_decode_data&TimeStr=1539766637349"
+                    } else {
+                        recUrl = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port +"/dll/VLanPlay.dll?Play?ID=" + cur_file_id + "&SessionID=gvl_decode_data&TimeStr=1539766637349"
+                    }
+                    console.info(recUrl);
+                } else {
+                    //$("#aplayer").attr("src", jsonResult.url);
+                    recUrl = jsonResult.url;
+                }
+                
+                wavep.load(recUrl);
+                currentOPFile = jsonResult.url;
+            }
+        });
+}
+
+function clickPlayBtn(){
+    wavep.playPause();
+}
+
+function clickPlayPrevBtn(){
+    autoDownloadNextFile("prev");
+}
+
+function clickPlayNextBtn(){
+    autoDownloadNextFile();
+}
+
+function setPlayRate(rate){
+    wavep.setPlaybackRate(rate);
+}
+
+function dlFile() {
+    var cur_file_id;
+    for (i = 0; i < arrCur_result.length; ++i) {
+        if (arrCur_result[i].rid == cur_rid) {
+            cur_file_id = arrCur_result[i].fid;
+            break;
+        }
+    }
+    var fileURL = "/wsgi/downloadrec?" + "device_id=" + cur_sid + "&fileid=" + cur_file_id;
+    $("#dl_iframe").attr("src", fileURL);
+    /*
+    $.get("/py/downloadrec",
+    {
+        device_id: cur_sid,
+        fileid: cur_file_id
+    });
+    */
+
+    /*
+    $.post("/py/downlaodrec",
+    {
+        device_id: cur_sid,
+        fileid: cur_file_id
+    },
+    function(result,state){
+        console.info(result);
+        if( result == "discon" ){
+            $('#dlModal').modal('hide');
+            $('#disModal').modal('show');
+        }
+        else{
+            $("#dl_iframe").attr("src", result);
+        }
+    });
+    */
+}
+
+function copyToClipboard(text) {
+    if (window.clipboardData && window.clipboardData.setData) {
+        // IE specific code path to prevent textarea being shown while dialog is visible.
+        return clipboardData.setData("Text", text); 
+
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = window.location.origin + text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+        textarea.id = "copy-url";
+        //document.body.appendChild(textarea);
+        $("#share-btn").after(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        } catch (ex) {
+            console.info("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            //document.body.removeChild(textarea);
+            $("#copy-url").remove();
+        }
+    }
+}
+
+function maniASR(url){
+    var hasASRResult = false;
+    for (i = 0; i < arrCur_result.length; ++i) {
+        if (arrCur_result[i].rid == cur_rid) {
+            if( arrCur_result[i].asr == "1") {
+                hasASRResult = true;
+            }
+            break;
+        }
+    }
+
+    if( hasASRResult ) {
+        $("#asrlistdiv").show();
+        cur_asr_url = "";
+        $.get("/wsgi/asr_request/" + url, function(result){
+            if( result === "iderror" ) {
+                $(location).attr("pathname","login.html");
+            }
+            else {
+                var jsonResult = JSON.parse(result);
+                var msg = "";
+                for(i=0; i<jsonResult.length; i++) {
+                    msg = msg + jsonResult[i] + "\r";
+                }
+                $("#asrresult").val( msg );
+                console.info("asr text:" + jsonResult.toString() );
+            }
+        });
+    }
+    else {
+        $("#asrbtndiv").show();
+    }
+    
+}
+
+function sbd(strTime1,strTime2){
+    // "2016-05-23 12:34:11"
+    var dt1 = strTime1.match(/(\d+)/g);
+    var dt2 = strTime2.match(/(\d+)/g);
+
+    var t1 = new Date( dt1[0], dt1[1]-1, dt1[2], dt1[3], dt1[4], dt1[5]);
+    var t2 = new Date( dt2[0], dt2[1]-1, dt2[2], dt2[3], dt2[4], dt2[5]);
+
+    var dif = t2.getTime() - t1.getTime();
+    var Seconds_from_T1_to_T2 = dif / 1000;
+    var Seconds_Between_Dates = Math.abs(Seconds_from_T1_to_T2);
+    //console.info("S1:"+ strTime1 + " S2:"+ strTime2 + "    sbd:" +Seconds_Between_Dates);
+    return Seconds_Between_Dates;
+}

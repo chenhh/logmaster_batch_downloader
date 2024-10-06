@@ -1,7 +1,5 @@
-use reqwest::Client;
-use scraper::{Html, Selector};
 use std::collections::HashMap;
-use std::io::copy;
+
 
 /// step 1: login (admin/123)
 /// step 2: 選定搜尋日期範圍
@@ -15,11 +13,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut login_data = HashMap::new();
     login_data.insert("username", "admin");
     login_data.insert("password", "123");
-    let response = client.post("http://192.168.1.100/wsgi/login")
+    let _response = client.post("http://192.168.1.100/wsgi/login")
         .form(&login_data)
         .send()
         .await?;
-
 
     // step2: custom date interval, search.js
     // server=0&ch_username=*&stime=s-range&year=2024&month=9&day=06&hour=00&min=00&sec=00&yearend=2024&monthend=10&dayend=06&hourend=23&minend=59&secend=59
@@ -60,21 +57,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let results = response.text().await?;
     println!("{results}");
 
-    // download
+    // 使用wsgi下載只要知道fileid即可，檔名會自動給出
     // http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid=16499
     // http://192.168.1.100/audio_mnt/000/ch4/20240829/164503.mp3
+    let rows : Vec<&str> = results.split(';').collect();
+    let rows : Vec<&str> =rows.split(';').collect();
+    for row in rows{
+        println!("{row}");
+        let col: Vec<&str> = row.split(',').collect();
+        if col.len() > 1{
+            let url = format!("http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid={}", col[1]);
+            let mut response = client.get(url).send().await?;
 
-    // 指定輸出資料夾
+            let mut file = std::fs::File::create(format!("{}.mp3", col[1]))?;
+            let mut content =  std::io::Cursor::new(response.bytes().await?);
+            std::io::copy(&mut content, &mut file)?;
 
-
-    // let mut file = File::create("logined.html")?;
-    // copy(&mut html_content, &mut file)?;
-    // let product_selector = Selector::parse("article.product_pod").unwrap();
-    // let products = document.select(&product_selector);
-
-    // download
-    // let mut file = File::create("image.png")?;
-    // copy(&mut response, &mut file)?;
-
+        }
+    }
     Ok(())
 }

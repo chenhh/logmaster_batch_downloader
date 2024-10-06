@@ -11,14 +11,13 @@ use std::io::copy;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // step 1: login
-    let url = "http://192.168.1.100/wsgi/login";
-    let client = Client::new();
+    let client = reqwest::Client::builder().cookie_store(true).build()?;
 
     // send POST　request
     let mut login_data = HashMap::new();
     login_data.insert("username", "admin");
     login_data.insert("password", "123");
-    let response = client.post(url)
+    let response = client.post("http://192.168.1.100/wsgi/login")
         .form(&login_data)
         .send()
         .await?;

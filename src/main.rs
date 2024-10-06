@@ -27,7 +27,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     form.insert("stime", "s-range");
     form.insert("year", "2024");
     form.insert("month","1");
-    form.insert("day", "1");
+    form.insert("day", "31");
     form.insert("hour", "00");
     form.insert("min", "00");
     form.insert("sec", "00");
@@ -67,11 +67,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let col: Vec<&str> = row.split(',').collect();
         if col.len() > 1{
             let url = format!("http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid={}", col[1]);
-            let mut response = client.get(url).send().await?;
+            let response = client.get(url).send().await?;
+            // println!("response {:?}", response.headers());
 
-            let mut file = std::fs::File::create(format!("{}.mp3", col[1]))?;
-            let mut content =  std::io::Cursor::new(response.bytes().await?);
-            std::io::copy(&mut content, &mut file)?;
+            let tmp_filename = response.headers().get("content-disposition").unwrap();
+            println!("{:?}",tmp_filename );
+            // file name is given in the headers
+            // response {"server": "nginx/1.12.1", "date": "Sun, 06 Oct 2024 14:18:33 GMT", 
+            // "content-type": "attachment", "content-length": "44878", "connection": "keep-alive", 
+            // "last-modified": "Wed, 31 Jan 2024 01:02:36 GMT", "accept-ranges": "bytes", 
+            // "content-disposition": "attachment; filename=\"Ch2_2024-01-31_09-02-14_22_2024-01-31_09-02-35_.mp3\""} 
+            // "attachment; filename=\"Ch1_2024-01-31_13-45-49_12_2024-01-31_13-46-01_.mp3\""
+
+            // let mut file = std::fs::File::create(format!("{}.mp3", col[1]))?;
+            // let mut content =  std::io::Cursor::new(response.bytes().await?);
+            // std::io::copy(&mut content, &mut file)?;
             println!("file:{} download complete.", col[1]);
 
         }

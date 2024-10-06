@@ -27,7 +27,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     form.insert("stime", "s-range");
     form.insert("year", "2024");
     form.insert("month","1");
-    form.insert("day", "31");
+    form.insert("day", "1");
     form.insert("hour", "00");
     form.insert("min", "00");
     form.insert("sec", "00");
@@ -61,7 +61,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid=16499
     // http://192.168.1.100/audio_mnt/000/ch4/20240829/164503.mp3
     let rows : Vec<&str> = results.split(';').collect();
-    let rows : Vec<&str> =rows.split(';').collect();
+    
     for row in rows{
         println!("{row}");
         let col: Vec<&str> = row.split(',').collect();
@@ -72,6 +72,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let mut file = std::fs::File::create(format!("{}.mp3", col[1]))?;
             let mut content =  std::io::Cursor::new(response.bytes().await?);
             std::io::copy(&mut content, &mut file)?;
+            println!("file:{} download complete.", col[1]);
 
         }
     }

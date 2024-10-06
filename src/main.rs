@@ -31,13 +31,36 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .send()
         .await?;
 
-    // step3: custom date interval
-    let mut interval_data = HashMap::new();
-    // form_inline
-    //  stime: s-range
-    // div-time-range
-    // year, month, day, hour, min, sec
-    // yearend, monthend, hourend, minend, hoursend, secend
+    let html_content = response.text().await?;
+    let document = Html::parse_document(&html_content);
+    println!("{html_content}");
+
+    // step3: custom date interval, search.js
+    // server=0&ch_username=*&stime=s-today&year=2024&month=10&day=06&hour=00&min=00&sec=00&yearend=2024&monthend=10&dayend=06&hourend=23&minend=59&secend=59
+    //  server=0&ch_username=*&stime=s-range&year=2024&month=9&day=06&hour=00&min=00&sec=00&yearend=2024&monthend=10&dayend=06&hourend=23&minend=59&secend=59
+    // http://192.168.1.100/wsgi/search post
+    let mut form = HashMap::new();
+    form.insert("server", "0");
+    form.insert("ch_username", "*");
+    form.insert("stime", "s-range");
+    form.insert("year", "2024");
+    form.insert("month","9");
+    form.insert("day", "06");
+    form.insert("hour", "00");
+    form.insert("min", "00");
+    form.insert("sec", "00");
+    form.insert("yearend", "2024");
+    form.insert("monthend","10");
+    form.insert("dayend", "06");
+    form.insert("hourend", "23");
+    form.insert("minend", "59");
+    form.insert("secend", "59");
+
+    let response = client.post("http://192.168.1.100/wsgi/search")
+    .form(&form)
+    .send()
+    .await?;
+
 
     // parse, 要注意搜尋結果會有多頁
     // 主要分析audio channel no., channel name, start-end time interval

@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-
+// use std::io::Write;
 
 /// step 1: login (admin/123)
 /// step 2: 選定搜尋日期範圍
@@ -64,31 +64,52 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 使用wsgi下載只要知道fileid即可，檔名會自動給出
     // http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid=16499
     // http://192.168.1.100/audio_mnt/000/ch4/20240829/164503.mp3
-    let rows : Vec<&str> = results.split(';').collect();
-    
+    let mut rows : Vec<&str> = results.split(';').collect();
+
+    // 最後一筆資料為; 刪除
+    if let Some(last) = rows.last() {
+        if last.len() <=1 {
+            rows.pop();
+        }
+    }
+
     for row in rows{
         println!("{row}");
         let col: Vec<&str> = row.split(',').collect();
-        if col.len() > 1{
-            let url = format!("http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid={}", col[1]);
-            let response = client.get(url).send().await?;
-            // println!("response {:?}", response.headers());
 
-            let tmp_filename = response.headers().get("content-disposition").unwrap();
-            println!("{:?}",tmp_filename );
-            // file name is given in the headers
-            // response {"server": "nginx/1.12.1", "date": "Sun, 06 Oct 2024 14:18:33 GMT", 
-            // "content-type": "attachment", "content-length": "44878", "connection": "keep-alive", 
-            // "last-modified": "Wed, 31 Jan 2024 01:02:36 GMT", "accept-ranges": "bytes", 
-            // "content-disposition": "attachment; filename=\"Ch2_2024-01-31_09-02-14_22_2024-01-31_09-02-35_.mp3\""} 
-            // "attachment; filename=\"Ch1_2024-01-31_13-45-49_12_2024-01-31_13-46-01_.mp3\""
+        let url = format!("http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid={}", col[1]);
+        let response = client.get(url).send().await?;
 
-            // let mut file = std::fs::File::create(format!("{}.mp3", col[1]))?;
-            // let mut content =  std::io::Cursor::new(response.bytes().await?);
-            // std::io::copy(&mut content, &mut file)?;
-            println!("file:{} download complete.", col[1]);
+        // 檔名在response的header中
+        // response {"server": "nginx/1.12.1", "date": "Sun, 06 Oct 2024 14:18:33 GMT",
+        // "content-type": "attachment", "content-length": "44878", "connection": "keep-alive",
+        // "last-modified": "Wed, 31 Jan 2024 01:02:36 GMT", "accept-ranges": "bytes",
+        // "content-disposition": "attachment; filename=\"Ch2_2024-01-31_09-02-14_22_2024-01-31_09-02-35_.mp3\""}
+        // "attachment; filename=\"Ch1_2024-01-31_13-45-49_12_2024-01-31_13-46-01_.mp3\""
 
+        // println!("response {:?}", response.headers());
+        let header_filename = response.headers().get("content-disposition").unwrap().to_str().unwrap();
+        println!("{}", header_filename);
+        // 使用split找到filename開頭的位置
+
+        // 檔名中可能有utf8字串，用iter方式切子字串
+        let mut filename = "";
+        if let Some(part) = header_filename.split("filename=\"").nth(1) {
+            if let Some(name) = part.split('"').next() {
+                filename = name;
+            }
         }
+
+        // 確保資料夾存在，若不存在則建立
+        let folder_path = r"c:/mp3";
+        std::fs::create_dir_all(folder_path)?;
+        let path = std::path::Path::new(folder_path).join(filename);
+        let mut file = std::fs::File::create(path)?;
+        let mut content =  std::io::Cursor::new(response.bytes().await?);
+        std::io::copy(&mut content, &mut file)?;
+
+        println!("file:{} download complete.", filename);
+
     }
     Ok(())
 }

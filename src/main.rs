@@ -124,8 +124,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+fn is_leap_year(year: i32) -> bool {
+    (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+}
+
 fn last_day_of_month(year: i32, month: u32) -> NaiveDate {
     // 取得該月的第一天
+
+
     let first_day = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
 
     // 取得下一個月的第一天，然後往前一天就是本月的最後一天

@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-reqwest = { version = "0.12.8", features= ["cookies", "gzip"]}
+reqwest = { version = "0.12.8", features= ["cookies"]}
 scraper = "0.20.0"
 tokio = { version = "1.40.0", features = ["full"] }
 chrono = "0.4.38"
+clap = { version = "4.5.19", features = ["derive"] }

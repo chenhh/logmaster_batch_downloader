@@ -1,12 +1,26 @@
 use chrono::{Datelike, Duration, Local, NaiveDate};
 use std::collections::HashMap;
+use clap::Parser;
 
 /// step 1: login (admin/123)
 /// step 2: 選定搜尋日期範圍
 /// step 3: 從日期與時間下載檔案，還要翻頁
 
+/// Simple program to greet a person
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    #[arg(short, long)]
+    year: u32,
+
+    #[arg(short, long)]
+    month: u32,
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args = Args::parse();
+
     // step 1: login, 必須使用cookie才能維持登入狀態
     let client = reqwest::Client::builder().cookie_store(true).build()?;
     let mut form = HashMap::new();
@@ -26,25 +40,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // &yearend=2024&monthend=10&dayend=06&hourend=23&minend=59&secend=59
     // http://192.168.1.100/wsgi/search post
 
-    let today = Local::now();
-    let year = format!("{}", today.year());
+    // let today = Local::now();
+    let year = 2024;
     // let month = &format!("{}", today.month());
-    let month = "1";
+    let month = 1;
+    let last_day_str = last_day_of_month(year, month).to_string();
+    let year_str = year.to_string();
+    let month_str = month.to_string();
 
-    // let mut form = HashMap::new();
     form.clear();
     form.insert("server", "0"); // 0, local machine
     form.insert("ch_username", "*"); // all channels
     form.insert("stime", "s-range");
-    form.insert("year", &year);
-    form.insert("month", &month);
-    form.insert("day", "31");
+    form.insert("year", &year_str);
+    form.insert("month", &month_str);
+    form.insert("day", "1");
     form.insert("hour", "00");
     form.insert("min", "00");
     form.insert("sec", "00");
-    form.insert("yearend", &year);
-    form.insert("monthend", &month);
-    form.insert("dayend", "31");
+    form.insert("yearend", &year_str);
+    form.insert("monthend", &month_str);
+    form.insert("dayend", &last_day_str);
     form.insert("hourend", "23");
     form.insert("minend", "59");
     form.insert("secend", "59");
@@ -115,7 +131,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         // 確保資料夾存在，若不存在則建立
-        let folder_path = format!("C:\\Users\\nanpu\\Downloads\\{year}\\{month}");
+        let folder_path: std::path::PathBuf = ["c:\\", "Users", "nanpu", "Downloads", &year.to_string(),
+        &month.to_string()].iter().collect();
+        // let folder_path = format!("C:\\Users\\nanpu\\Downloads\\{year}\\{month}");
         std::fs::create_dir_all(&folder_path)?;
         let path = std::path::Path::new(&folder_path).join(&filename);
         let mut file = std::fs::File::create(path)?;
@@ -128,23 +146,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-// fn is_leap_year(year: i32) -> bool {
-//     (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
-// }
+fn is_leap_year(year: i32) -> bool {
+    year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
+}
 
-// fn last_day_of_month(year: i32, month: u32) -> NaiveDate {
-//     // 取得該月的第一天
-
-
-//     let first_day = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
-
-//     // 取得下一個月的第一天，然後往前一天就是本月的最後一天
-//     let next_month = if month == 12 {
-//         NaiveDate::from_ymd_opt(year + 1, 1, 1)
-//     } else {
-//         NaiveDate::from_ymd_opt(year, month + 1, 1)
-//     };
-//     let last_day = next_month.unwrap() - Duration::days(1);
-
-//     last_day
-// }
+fn last_day_of_month(year: i32, month: u32) -> u32 {
+    match month {
+        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
+        4 | 6 | 9 | 11 => 30,
+        2 => if is_leap_year(year) { 29 } else { 28 },
+        _ => panic!("invalid month: {month}"),
+    }
+}

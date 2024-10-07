@@ -27,20 +27,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // http://192.168.1.100/wsgi/search post
 
     let today = Local::now();
+    let year = format!("{}", today.year());
+    // let month = &format!("{}", today.month());
+    let month = "1";
 
     // let mut form = HashMap::new();
     form.clear();
     form.insert("server", "0"); // 0, local machine
     form.insert("ch_username", "*"); // all channels
     form.insert("stime", "s-range");
-    form.insert("year", &today.year().to_string());
-    form.insert("month", &today.month().to_string());
+    form.insert("year", &year);
+    form.insert("month", &month);
     form.insert("day", "31");
     form.insert("hour", "00");
     form.insert("min", "00");
     form.insert("sec", "00");
-    form.insert("yearend", &today.year().to_string());
-    form.insert("monthend", &today.month().to_string());
+    form.insert("yearend", &year);
+    form.insert("monthend", &month);
     form.insert("dayend", "31");
     form.insert("hourend", "23");
     form.insert("minend", "59");
@@ -94,53 +97,54 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // "attachment; filename=\"Ch1_2024-01-31_13-45-49_12_2024-01-31_13-46-01_.mp3\""
 
         // println!("response {:?}", response.headers());
-        let header_filename = response
+        let header_filename = &response
             .headers()
             .get("content-disposition")
             .unwrap()
             .to_str()
-            .unwrap();
+            .unwrap();  
         println!("{}", header_filename);
         // 使用split找到filename開頭的位置
 
         // 檔名中可能有utf8字串，用iter方式切子字串
-        let mut filename = "";
+        let mut filename = String::new();
         if let Some(part) = header_filename.split("filename=\"").nth(1) {
             if let Some(name) = part.split('"').next() {
-                filename = name;
+                filename = name.to_string();
             }
         }
 
         // 確保資料夾存在，若不存在則建立
-        let folder_path = r"c:/mp3";
-        std::fs::create_dir_all(folder_path)?;
-        let path = std::path::Path::new(folder_path).join(filename);
+        let folder_path = format!("C:\\Users\\nanpu\\Downloads\\{year}\\{month}");
+        std::fs::create_dir_all(&folder_path)?;
+        let path = std::path::Path::new(&folder_path).join(&filename);
         let mut file = std::fs::File::create(path)?;
+
         let mut content = std::io::Cursor::new(response.bytes().await?);
         std::io::copy(&mut content, &mut file)?;
 
-        println!("file:{} download complete.", filename);
+        println!("file:{} download complete.", &filename);
     }
     Ok(())
 }
 
-fn is_leap_year(year: i32) -> bool {
-    (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
-}
+// fn is_leap_year(year: i32) -> bool {
+//     (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+// }
 
-fn last_day_of_month(year: i32, month: u32) -> NaiveDate {
-    // 取得該月的第一天
+// fn last_day_of_month(year: i32, month: u32) -> NaiveDate {
+//     // 取得該月的第一天
 
 
-    let first_day = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
+//     let first_day = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
 
-    // 取得下一個月的第一天，然後往前一天就是本月的最後一天
-    let next_month = if month == 12 {
-        NaiveDate::from_ymd_opt(year + 1, 1, 1)
-    } else {
-        NaiveDate::from_ymd_opt(year, month + 1, 1)
-    };
-    let last_day = next_month.unwrap() - Duration::days(1);
+//     // 取得下一個月的第一天，然後往前一天就是本月的最後一天
+//     let next_month = if month == 12 {
+//         NaiveDate::from_ymd_opt(year + 1, 1, 1)
+//     } else {
+//         NaiveDate::from_ymd_opt(year, month + 1, 1)
+//     };
+//     let last_day = next_month.unwrap() - Duration::days(1);
 
-    last_day
-}
+//     last_day
+// }

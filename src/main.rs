@@ -1,10 +1,9 @@
+use chrono::{Datelike, Duration, Local, NaiveDate};
 use std::collections::HashMap;
-// use std::io::Write;
 
 /// step 1: login (admin/123)
 /// step 2: 選定搜尋日期範圍
 /// step 3: 從日期與時間下載檔案，還要翻頁
-
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -15,7 +14,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     form.insert("password", "123");
 
     // login後必須使用cookie保存已登入資訊
-    let _ = client.post("http://192.168.1.100/wsgi/login")
+    let _ = client
+        .post("http://192.168.1.100/wsgi/login")
         .form(&form)
         .send()
         .await?;
@@ -26,28 +26,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // &yearend=2024&monthend=10&dayend=06&hourend=23&minend=59&secend=59
     // http://192.168.1.100/wsgi/search post
 
+    let today = Local::now();
+
     // let mut form = HashMap::new();
     form.clear();
     form.insert("server", "0"); // 0, local machine
-    form.insert("ch_username", "*");    // all channels
+    form.insert("ch_username", "*"); // all channels
     form.insert("stime", "s-range");
-    form.insert("year", "2024");
-    form.insert("month","1");
+    form.insert("year", &today.year().to_string());
+    form.insert("month", &today.month().to_string());
     form.insert("day", "31");
     form.insert("hour", "00");
     form.insert("min", "00");
     form.insert("sec", "00");
-    form.insert("yearend", "2024");
-    form.insert("monthend","1");
+    form.insert("yearend", &today.year().to_string());
+    form.insert("monthend", &today.month().to_string());
     form.insert("dayend", "31");
     form.insert("hourend", "23");
     form.insert("minend", "59");
     form.insert("secend", "59");
 
-    let response = client.post("http://192.168.1.100/wsgi/search")
-    .form(&form)
-    .send()
-    .await?;
+    let response = client
+        .post("http://192.168.1.100/wsgi/search")
+        .form(&form)
+        .send()
+        .await?;
 
     // parse
     // 5,18399,2024-10-06 00:35:19,8,2024-10-06 00:35:27,i,,0,高調,,;
@@ -64,20 +67,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 使用wsgi下載只要知道fileid即可，檔名會自動給出
     // http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid=16499
     // http://192.168.1.100/audio_mnt/000/ch4/20240829/164503.mp3
-    let mut rows : Vec<&str> = results.split(';').collect();
+    let mut rows: Vec<&str> = results.split(';').collect();
 
     // 最後一筆資料為; 刪除
     if let Some(last) = rows.last() {
-        if last.len() <=1 {
+        if last.len() <= 1 {
             rows.pop();
         }
     }
 
-    for row in rows{
+    for row in rows {
         println!("{row}");
         let col: Vec<&str> = row.split(',').collect();
 
-        let url = format!("http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid={}", col[1]);
+        let url = format!(
+            "http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid={}",
+            col[1]
+        );
         let response = client.get(url).send().await?;
 
         // 檔名在response的header中
@@ -88,7 +94,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // "attachment; filename=\"Ch1_2024-01-31_13-45-49_12_2024-01-31_13-46-01_.mp3\""
 
         // println!("response {:?}", response.headers());
-        let header_filename = response.headers().get("content-disposition").unwrap().to_str().unwrap();
+        let header_filename = response
+            .headers()
+            .get("content-disposition")
+            .unwrap()
+            .to_str()
+            .unwrap();
         println!("{}", header_filename);
         // 使用split找到filename開頭的位置
 
@@ -105,11 +116,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::fs::create_dir_all(folder_path)?;
         let path = std::path::Path::new(folder_path).join(filename);
         let mut file = std::fs::File::create(path)?;
-        let mut content =  std::io::Cursor::new(response.bytes().await?);
+        let mut content = std::io::Cursor::new(response.bytes().await?);
         std::io::copy(&mut content, &mut file)?;
 
         println!("file:{} download complete.", filename);
-
     }
     Ok(())
+}
+
+fn last_day_of_month(year: i32, month: u32) -> NaiveDate {
+    // 取得該月的第一天
+    let first_day = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
+
+    // 取得下一個月的第一天，然後往前一天就是本月的最後一天
+    let next_month = if month == 12 {
+        NaiveDate::from_ymd_opt(year + 1, 1, 1)
+    } else {
+        NaiveDate::from_ymd_opt(year, month + 1, 1)
+    };
+    let last_day = next_month.unwrap() - Duration::days(1);
+
+    last_day
 }

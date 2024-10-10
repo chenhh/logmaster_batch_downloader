@@ -1,4 +1,3 @@
-use chrono::{Datelike, Duration, Local, NaiveDate};
 use std::collections::HashMap;
 use clap::Parser;
 
@@ -8,12 +7,12 @@ use clap::Parser;
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
+#[command(version="0.1", about = "備分調度電話記錄，必須指定年分--year與月份--month", long_about = None)]
 struct Args {
-    #[arg(short, long)]
+    #[arg(short, long, value_parser=clap::value_parser!(u32).range(2020..=2040))]
     year: u32,
 
-    #[arg(short, long)]
+    #[arg(short, long, value_parser=clap::value_parser!(u32).range(1..=12))]
     month: u32,
 }
 
@@ -40,13 +39,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // &yearend=2024&monthend=10&dayend=06&hourend=23&minend=59&secend=59
     // http://192.168.1.100/wsgi/search post
 
-    // let today = Local::now();
-    let year = 2024;
-    // let month = &format!("{}", today.month());
-    let month = 1;
+    let year = args.year;
+    let month = args.month;
     let last_day_str = last_day_of_month(year, month).to_string();
     let year_str = year.to_string();
     let month_str = month.to_string();
+    println!("抓取資料日期區間: {year}-{month}-01-00:00:00_{year}-{month}-{last_day_str}-23:59:59");
 
     form.clear();
     form.insert("server", "0"); // 0, local machine
@@ -146,11 +144,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn is_leap_year(year: i32) -> bool {
+fn is_leap_year(year: u32) -> bool {
     year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
 }
 
-fn last_day_of_month(year: i32, month: u32) -> u32 {
+fn last_day_of_month(year: u32, month: u32) -> u32 {
     match month {
         1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
         4 | 6 | 9 | 11 => 30,

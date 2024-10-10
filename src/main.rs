@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use reqwest::header::HeaderValue;
 use clap::Parser;
 
 /// step 1: login (admin/123)
@@ -110,15 +111,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // "content-disposition": "attachment; filename=\"Ch2_2024-01-31_09-02-14_22_2024-01-31_09-02-35_.mp3\""}
         // "attachment; filename=\"Ch1_2024-01-31_13-45-49_12_2024-01-31_13-46-01_.mp3\""
 
+        let empty_header = HeaderValue::from_str("").unwrap();
         // println!("response {:?}", response.headers());
         let header_filename = &response
             .headers()
             .get("content-disposition")
-            .unwrap()
+            .unwrap_or( &empty_header)
             .to_str()
-            .unwrap();  
+            .unwrap();
         // println!("{}", header_filename);
         // 使用split找到filename開頭的位置
+
+        if header_filename.len() == 0 {
+            eprintln!("[{}/{}] 無法讀取資料表頭:{:?}",  rdx+1, rows.len(), response.headers());
+            continue;
+        }
 
         // 檔名中可能有utf8字串，用iter方式切子字串
         let mut filename = String::new();

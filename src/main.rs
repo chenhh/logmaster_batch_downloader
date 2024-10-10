@@ -8,7 +8,8 @@ use clap::Parser;
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
-#[command(version="0.1", about = "備分調度電話記錄，必須指定年分--year與月份--month", long_about = None)]
+#[command(version="0.1", about = "備分調度電話記錄，必須指定年分--year與月份--month", long_about = None
+)]
 struct Args {
     #[arg(short, long, value_parser=clap::value_parser!(u32).range(2020..=2040))]
     year: u32,
@@ -94,7 +95,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    for (rdx,row) in rows.iter().enumerate() {
+    for (rdx, row) in rows.iter().enumerate() {
         // println!("{row}");
         let col: Vec<&str> = row.split(',').collect();
 
@@ -116,14 +117,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let header_filename = &response
             .headers()
             .get("content-disposition")
-            .unwrap_or( &empty_header)
+            .unwrap_or(&empty_header)
             .to_str()
             .unwrap();
         // println!("{}", header_filename);
         // 使用split找到filename開頭的位置
 
         if header_filename.len() == 0 {
-            eprintln!("[{}/{}] 無法讀取資料表頭:{:?}",  rdx+1, rows.len(), response.headers());
+            eprintln!("[{}/{}] 無法讀取資料表頭:{:?}", rdx + 1, rows.len(), response.headers());
             continue;
         }
 
@@ -137,7 +138,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         // 確保資料夾存在，若不存在則建立
         let folder_path: std::path::PathBuf = ["c:\\", "Users", "nanpu", "Downloads", &year.to_string(),
-        &month.to_string()].iter().collect();
+            &month.to_string()].iter().collect();
         // let folder_path = format!("C:\\Users\\nanpu\\Downloads\\{year}\\{month}");
         std::fs::create_dir_all(&folder_path)?;
         let path = std::path::Path::new(&folder_path).join(&filename);
@@ -146,7 +147,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut content = std::io::Cursor::new(response.bytes().await?);
         std::io::copy(&mut content, &mut file)?;
 
-        println!("[{}/{}]:{} 下載完成.", rdx+1, rows.len(), &filename);
+        println!("[{}/{}]:{} 下載完成.", rdx + 1, rows.len(), &filename);
     }
     Ok(())
 }

@@ -79,7 +79,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // col: {0: channel, 1:file_id, 2:start datetime, 3:rec_length ,4L end datetime,
     // 5:call_direction, 6: call_phone_number, 7: 0, 8: phone_name, 9: ?, 10: asr_enable}
     let results = response.text().await?;
-    println!("{results}");
+    // println!("{results}");
 
     // 使用wsgi下載只要知道fileid即可，檔名會自動給出
     // http://192.168.1.100/wsgi/downloadrec?device_id=0&fileid=16499
@@ -93,8 +93,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    for row in rows {
-        println!("{row}");
+    for (rdx,row) in rows.iter().enumerate() {
+        // println!("{row}");
         let col: Vec<&str> = row.split(',').collect();
 
         let url = format!(
@@ -117,7 +117,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .unwrap()
             .to_str()
             .unwrap();  
-        println!("{}", header_filename);
+        // println!("{}", header_filename);
         // 使用split找到filename開頭的位置
 
         // 檔名中可能有utf8字串，用iter方式切子字串
@@ -139,7 +139,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut content = std::io::Cursor::new(response.bytes().await?);
         std::io::copy(&mut content, &mut file)?;
 
-        println!("file:{} download complete.", &filename);
+        println!("[{}/{}]:{} 下載完成.", rdx+1, rows.len(), &filename);
     }
     Ok(())
 }

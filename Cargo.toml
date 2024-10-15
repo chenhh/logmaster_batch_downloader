@@ -3,6 +3,11 @@ name = "logmaster_batch_downloader"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default = ["cli"]
+cli = []
+gui = []
+
 [dependencies]
 reqwest = { version = "0.12.8", features= ["cookies"]}
 scraper = "0.20.0"

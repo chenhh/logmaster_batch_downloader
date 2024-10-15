@@ -7,6 +7,8 @@ use clap::Parser;
 /// step 3: 從日期與時間下載檔案，還要翻頁
 
 /// Simple program to greet a person
+///
+#[cfg(feature = "cli")]
 #[derive(Parser, Debug)]
 #[command(version="0.1", about = "備分調度電話記錄，必須指定年分--year與月份--month", long_about = None
 )]
@@ -18,6 +20,7 @@ struct Args {
     month: u32,
 }
 
+#[cfg(feature = "cli")]
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();

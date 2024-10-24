@@ -119,7 +119,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let header_filename = &response
             .headers()
             .get("content-disposition")
-            .unwrap_or(&empty_header)
+            .unwrap_or(&empty_header)   // 如果沒有回應時插入空表頭
             .to_str()
             .unwrap();
         // println!("{}", header_filename);
@@ -182,6 +182,6 @@ fn last_day_of_month(year: u32, month: u32) -> u32 {
                 28
             }
         }
-        _ => panic!("invalid month: {month}"),
+        _ => panic!("不合法的月份: {month}"),
     }
 }

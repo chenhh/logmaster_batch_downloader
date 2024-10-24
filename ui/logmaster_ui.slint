@@ -1,0 +1,56 @@
+import { GridBox,   Button, DatePickerPopup, ScrollView, ComboBox } from "std-widgets.slint";
+export component LogMasterUI inherits Window {
+
+    VerticalLayout {
+        HorizontalLayout {
+            alignment: center;
+            Text {
+                text: "connection status:";
+                font-size: 14px;
+                horizontal-alignment: center;
+            }
+
+            Text {
+                text: "not connected";
+                font-size: 14px;
+                horizontal-alignment: center;
+            }
+        }
+
+        HorizontalLayout {
+            alignment: center;
+            Text {
+                text: "year:";
+                font-size: 14px;
+                horizontal-alignment: center;
+            }
+
+            year_box := ComboBox {
+                width: self.preferred-width;
+                height: self.preferred-height;
+                model: ["2020", "2021", "2022", "2023", "2024"];
+                current-value: "2024";
+            }
+
+            Text {
+                text: "month:";
+                font-size: 14px;
+                horizontal-alignment: center;
+            }
+
+            month_box := ComboBox {
+                width: self.preferred-width;
+                height: self.preferred-height;
+                model: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                current-value: "01";
+            }
+}
+
+        msg_view := ScrollView {
+            width: 300px;
+            height: 300px;
+            viewport-width: 300px;
+            viewport-height: 300px;
+        }
+    }
+}

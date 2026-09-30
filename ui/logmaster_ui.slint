@@ -1,59 +1,214 @@
-import { GridBox,   Button, DatePickerPopup, ScrollView, ComboBox } from "std-widgets.slint";
+import { Button, LineEdit, ComboBox, ProgressIndicator, ScrollView, GroupBox } from "std-widgets.slint";
+
 export component LogMasterUI inherits Window {
+    title: "LogMaster 錄音批次下載器";
+    preferred-width: 680px;
+    preferred-height: 600px;
+    min-width: 580px;
+    min-height: 520px;
+
+    in-out property <string> host-url: "http://192.168.1.100";
+    in-out property <string> username: "admin";
+    in-out property <string> password: "123";
+    in-out property <string> status-text: "未連線";
+    in-out property <color> status-color: #888888;
+    in-out property <string> current-year: "2024";
+    in-out property <string> current-month: "10";
+    in-out property <[string]> years: ["2021", "2022", "2023", "2024", "2025", "2026"];
+    in-out property <[string]> months: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+    in-out property <string> output-path: "";
+    in-out property <bool> is-downloading: false;
+    in-out property <float> download-progress: 0.0;
+    in-out property <string> progress-label: "0 / 0 (0%)";
+    in-out property <string> current-file-label: "";
+    in-out property <string> log-content: "";
+
+    callback test-connection();
+    callback browse-folder();
+    callback start-download();
+    callback cancel-download();
+    callback clear-log();
 
     VerticalLayout {
-        HorizontalLayout {
-            alignment: center;
-             spacing: 5px;
-            Text {
-                text: "connection status:";
-                font-size: 14px;
-                horizontal-alignment: center;
-            }
+        padding: 12px;
+        spacing: 10px;
 
-            Text {
-                text: "not connected";
-                color: red;
-                font-size: 14px;
-                horizontal-alignment: center;
+        // Group 1: 伺服器連線設定
+        GroupBox {
+            title: "伺服器連線設定";
+            VerticalLayout {
+                spacing: 8px;
+                HorizontalLayout {
+                    spacing: 8px;
+                    alignment: center;
+                    Text {
+                        text: "主機位址:";
+                        vertical-alignment: center;
+                    }
+                    host_input := LineEdit {
+                        text <=> root.host-url;
+                        enabled: !root.is-downloading;
+                        horizontal-stretch: 1;
+                    }
+                    Button {
+                        text: "測試連線";
+                        enabled: !root.is-downloading;
+                        clicked => { root.test-connection(); }
+                    }
+                }
+                HorizontalLayout {
+                    spacing: 8px;
+                    alignment: center;
+                    Text {
+                        text: "帳號:";
+                        vertical-alignment: center;
+                    }
+                    user_input := LineEdit {
+                        text <=> root.username;
+                        enabled: !root.is-downloading;
+                        width: 100px;
+                    }
+                    Text {
+                        text: "密碼:";
+                        vertical-alignment: center;
+                    }
+                    pwd_input := LineEdit {
+                        text <=> root.password;
+                        input-type: InputType.password;
+                        enabled: !root.is-downloading;
+                        width: 100px;
+                    }
+                    HorizontalLayout {
+                        spacing: 4px;
+                        horizontal-stretch: 1;
+                        Text {
+                            text: "狀態:";
+                            vertical-alignment: center;
+                        }
+                        Text {
+                            text: root.status-text;
+                            color: root.status-color;
+                            vertical-alignment: center;
+                            overflow: elide;
+                        }
+                    }
+                }
             }
         }
 
-        HorizontalLayout {
-            alignment: center;
-             spacing: 5px;
-            Text {
-                text: "year:";
-                font-size: 14px;
-                horizontal-alignment: center;
+        // Group 2: 下載條件與儲存目錄
+        GroupBox {
+            title: "下載條件與儲存目錄";
+            VerticalLayout {
+                spacing: 8px;
+                HorizontalLayout {
+                    spacing: 8px;
+                    alignment: center;
+                    Text {
+                        text: "年份:";
+                        vertical-alignment: center;
+                    }
+                    year_combo := ComboBox {
+                        model: root.years;
+                        current-value <=> root.current-year;
+                        enabled: !root.is-downloading;
+                        width: 90px;
+                    }
+                    Text {
+                        text: "月份:";
+                        vertical-alignment: center;
+                    }
+                    month_combo := ComboBox {
+                        model: root.months;
+                        current-value <=> root.current-month;
+                        enabled: !root.is-downloading;
+                        width: 70px;
+                    }
+                    Rectangle { horizontal-stretch: 1; }
+                }
+                HorizontalLayout {
+                    spacing: 8px;
+                    alignment: center;
+                    Text {
+                        text: "儲存目錄:";
+                        vertical-alignment: center;
+                    }
+                    path_input := LineEdit {
+                        text <=> root.output-path;
+                        enabled: !root.is-downloading;
+                        horizontal-stretch: 1;
+                    }
+                    Button {
+                        text: "瀏覽...";
+                        enabled: !root.is-downloading;
+                        clicked => { root.browse-folder(); }
+                    }
+                }
             }
+        }
 
-            year_box := ComboBox {
-                width: self.preferred-width;
-                height: self.preferred-height;
-                model: ["2020", "2021", "2022", "2023", "2024"];
-                current-value: "2024";
+        // Group 3: 下載操作與進度監控
+        GroupBox {
+            title: "下載操作與進度監控";
+            VerticalLayout {
+                spacing: 8px;
+                HorizontalLayout {
+                    spacing: 12px;
+                    Button {
+                        text: "開始下載";
+                        primary: true;
+                        enabled: !root.is-downloading;
+                        clicked => { root.start-download(); }
+                    }
+                    Button {
+                        text: "停止下載";
+                        enabled: root.is-downloading;
+                        clicked => { root.cancel-download(); }
+                    }
+                    Rectangle { horizontal-stretch: 1; }
+                    Text {
+                        text: root.progress-label;
+                        vertical-alignment: center;
+                        font-weight: 700;
+                    }
+                }
+                ProgressIndicator {
+                    progress: root.download-progress;
+                }
+                HorizontalLayout {
+                    Text {
+                        text: root.current-file-label;
+                        color: #555555;
+                        font-size: 12px;
+                        overflow: elide;
+                    }
+                }
             }
+        }
 
-            Text {
-                text: "month:";
-                font-size: 14px;
-                horizontal-alignment: center;
+        // Group 4: 執行日誌
+        GroupBox {
+            title: "執行日誌";
+            vertical-stretch: 1;
+            VerticalLayout {
+                spacing: 4px;
+                HorizontalLayout {
+                    Rectangle { horizontal-stretch: 1; }
+                    Button {
+                        text: "清除日誌";
+                        clicked => { root.clear-log(); }
+                    }
+                }
+                ScrollView {
+                    vertical-stretch: 1;
+                    min-height: 120px;
+                    Text {
+                        text: root.log-content;
+                        wrap: word-wrap;
+                        font-size: 12px;
+                    }
+                }
             }
-
-            month_box := ComboBox {
-                width: self.preferred-width;
-                height: self.preferred-height;
-                model: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-                current-value: "01";
-            }
-}
-
-        msg_view := ScrollView {
-            width: 300px;
-            height: 300px;
-            viewport-width: 300px;
-            viewport-height: 300px;
         }
     }
 }

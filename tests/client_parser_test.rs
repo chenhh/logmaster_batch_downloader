@@ -27,3 +27,15 @@ fn test_extract_filename_fallback_and_sanitization() {
     let dirty_name = "Ch1:test*file?.mp3";
     assert_eq!(sanitize_filename(dirty_name), "Ch1_test_file_.mp3");
 }
+
+#[test]
+fn test_extract_filename_fallback_flag() {
+    use logmaster_batch_downloader::client::extract_filename_info;
+    let (name, is_fallback) = extract_filename_info("", "123");
+    assert_eq!(name, "rec_123.mp3");
+    assert!(is_fallback);
+
+    let (name2, is_fallback2) = extract_filename_info("attachment; filename=\"valid.mp3\"", "123");
+    assert_eq!(name2, "valid.mp3");
+    assert!(!is_fallback2);
+}

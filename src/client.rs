@@ -72,20 +72,24 @@ pub fn sanitize_filename(filename: &str) -> String {
         .collect()
 }
 
-pub fn extract_filename(content_disposition: &str, fallback_file_id: &str) -> String {
+pub fn extract_filename_info(content_disposition: &str, fallback_file_id: &str) -> (String, bool) {
     if let Some(part) = content_disposition.split("filename=\"").nth(1) {
         if let Some(name) = part.split('"').next() {
             if !name.trim().is_empty() {
-                return sanitize_filename(name.trim());
+                return (sanitize_filename(name.trim()), false);
             }
         }
     } else if let Some(part) = content_disposition.split("filename=").nth(1) {
         let name = part.split(';').next().unwrap_or("").trim().trim_matches('"');
         if !name.is_empty() {
-            return sanitize_filename(name);
+            return (sanitize_filename(name), false);
         }
     }
-    format!("rec_{}.mp3", fallback_file_id)
+    (format!("rec_{}.mp3", fallback_file_id), true)
+}
+
+pub fn extract_filename(content_disposition: &str, fallback_file_id: &str) -> String {
+    extract_filename_info(content_disposition, fallback_file_id).0
 }
 
 #[derive(Clone, Debug)]
@@ -191,13 +195,16 @@ impl LogMasterClient {
             .and_then(|h| h.to_str().ok())
             .unwrap_or("");
 
-        let filename = extract_filename(cd_header, file_id);
+        let (filename, is_fallback) = extract_filename_info(cd_header, file_id);
+        if is_fallback {
+            eprintln!("[警告] 查無 Content-Disposition 標頭，使用後備檔名: {filename}");
+        }
 
-        std::fs::create_dir_all(target_dir)?;
+        tokio::fs::create_dir_all(target_dir).await?;
         let file_path = target_dir.join(&filename);
 
         let bytes = resp.bytes().await?;
-        std::fs::write(&file_path, bytes)?;
+        tokio::fs::write(&file_path, bytes).await?;
 
         Ok(file_path)
     }

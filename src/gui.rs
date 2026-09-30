@@ -271,7 +271,14 @@ pub fn run() -> Result<(), Box<dyn std::error::Error>> {
                                 .and_then(|n| n.to_str())
                                 .unwrap_or(&file_id)
                                 .to_string();
+                            let is_fallback = filename.starts_with("rec_");
                             let _ = ui_weak_async.upgrade_in_event_loop(move |ui| {
+                                if is_fallback {
+                                    append_log(
+                                        &ui,
+                                        &format!("[警告] [{current_num}/{total}] 查無檔名標頭，使用預設檔名: {filename}"),
+                                    );
+                                }
                                 append_log(&ui, &format!("[{current_num}/{total}] {filename} 下載完成"));
                             });
                         }

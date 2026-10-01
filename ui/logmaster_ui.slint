@@ -1,11 +1,12 @@
 import { Button, LineEdit, ComboBox, ProgressIndicator, ScrollView, GroupBox } from "std-widgets.slint";
 
 export component LogMasterUI inherits Window {
-    title: "LogMaster 錄音批次下載器";
-    preferred-width: 680px;
-    preferred-height: 600px;
-    min-width: 580px;
-    min-height: 520px;
+    title: "logmaster錄音備份程式";
+    icon: @image-url("icons/tpc.ico");
+    min-width: 680px;
+    max-width: 680px;
+    min-height: 640px;
+    max-height: 640px;
 
     in-out property <string> host-url: "http://192.168.1.100";
     in-out property <string> username: "admin";
@@ -29,9 +30,72 @@ export component LogMasterUI inherits Window {
     callback cancel-download();
     callback clear-log();
 
+    about_popup := PopupWindow {
+        x: 150px;
+        y: 200px;
+        width: 380px;
+        height: 180px;
+        close-on-click: true;
+
+        Rectangle {
+            background: #ffffff;
+            border-radius: 8px;
+            border-width: 1px;
+            border-color: #cccccc;
+            drop-shadow-blur: 16px;
+            drop-shadow-color: #00000044;
+
+            VerticalLayout {
+                padding: 16px;
+                spacing: 12px;
+                alignment: center;
+
+                Text {
+                    text: "關於我";
+                    font-size: 16px;
+                    font-weight: 700;
+                    horizontal-alignment: center;
+                }
+
+                Text {
+                    text: "Vibe coding, made by Gemini 3.8, Nanpu Power Plant";
+                    font-size: 13px;
+                    color: #333333;
+                    wrap: word-wrap;
+                    horizontal-alignment: center;
+                }
+
+                HorizontalLayout {
+                    alignment: center;
+                    Button {
+                        text: "確定";
+                        primary: true;
+                        width: 80px;
+                        clicked => { about_popup.close(); }
+                    }
+                }
+            }
+        }
+    }
+
     VerticalLayout {
         padding: 12px;
         spacing: 10px;
+
+        // Header bar
+        HorizontalLayout {
+            alignment: space-between;
+            Text {
+                text: "logmaster 錄音備份程式";
+                font-size: 15px;
+                font-weight: 700;
+                vertical-alignment: center;
+            }
+            Button {
+                text: "關於我";
+                clicked => { about_popup.show(); }
+            }
+        }
 
         // Group 1: 伺服器連線設定
         GroupBox {
